@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Layers } from "lucide-react"
+import Image from "next/image"
 
 export function SiteHeader() {
   return (
@@ -8,9 +8,16 @@ export function SiteHeader() {
       <div className="container flex h-14 items-center mx-auto px-4 md:px-6">
         <div className="mr-4 flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Layers className="h-6 w-6" />
+            <Image 
+              src="/logo.png" 
+              alt="Askr Logo" 
+              width={180} 
+              height={60} 
+              className="h-12 w-auto" 
+              priority
+            />
             <span className="hidden font-bold sm:inline-block">
-              Facto
+              Askr
             </span>
           </Link>
           <nav className="flex items-center space-x-6 text-sm font-medium">
@@ -18,13 +25,7 @@ export function SiteHeader() {
               href="/#features"
               className="transition-colors hover:text-foreground/80 text-foreground/60"
             >
-              Features
-            </Link>
-            <Link
-              href="/#testimonials"
-              className="transition-colors hover:text-foreground/80 text-foreground/60"
-            >
-              Testimonials
+              Process
             </Link>
             <Link
               href="/#pricing"

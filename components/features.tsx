@@ -1,64 +1,86 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { MousePointerClick, LayoutTemplate, Globe, Sparkles, ShieldCheck, Zap } from "lucide-react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Code, Eye, FolderPlus, Feather, Gauge, ShieldCheck } from "lucide-react"
 
-const features = [
+const processSteps = [
   {
-    title: "One-click Capture",
-    description: "Send a unique link to your users and collect feedback instantly without any friction.",
-    icon: MousePointerClick,
+    title: "1. Create your project",
+    description: "Sign up and create a new project bucket for your testimonials.",
+    icon: FolderPlus,
   },
   {
-    title: "Auto-generated Wall",
-    description: "We automatically design a stunning wall of love hosted on your own subdomain.",
-    icon: LayoutTemplate,
+    title: "2. Copy the script",
+    description: "Paste our lightweight JavaScript snippet into your site's <head>.",
+    icon: Code,
   },
   {
-    title: "Embed Anywhere",
-    description: "Use our lightweight widget to showcase testimonials on your landing page or app.",
-    icon: Globe,
+    title: "3. Watch reviews roll in",
+    description: "New feedback appears automatically in your dashboard and widget.",
+    icon: Eye,
   },
-    {
-    title: "AI Analysis",
-    description: "Automatically sentiment analysis to highlight the best feedback for your product.",
-    icon: Sparkles,
+]
+
+const whyAskr = [
+  {
+    title: "Lightweight",
+    description: "The entire bundle is less than 5kb gzipped. It won't bloat your bundle.",
+    icon: Feather,
   },
   {
-    title: "Verified Reviews",
-    description: "We verify the identity of your reviewers via LinkedIn or Twitter login.",
+    title: "Zero Latency",
+    description: "Askr loads asynchronously. It will never block your main thread or slow down your LCP.",
+    icon: Gauge,
+  },
+  {
+    title: "Zero Maintenance",
+    description: "Set it and forget it. We handle the hosting, scaling, and spam filtering.",
     icon: ShieldCheck,
-  },
-  {
-    title: "Lightning Fast",
-    description: "Optimized for speed. Your wall loads in milliseconds, ensuring great SEO.",
-    icon: Zap,
   },
 ]
 
 export function Features() {
   return (
-    <section id="features" className="container mx-auto px-4 md:px-6 py-24 sm:py-32">
-      <div className="flex flex-col items-center justify-center gap-4 text-center mb-16">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-          Everything you need to build trust.
-        </h2>
-        <p className="max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-          Facto provides all the tools you need to collect, manage, and showcase social proof.
-        </p>
+    <section id="features" className="container mx-auto px-4 md:px-6 py-24">
+      
+      {/* The Process */}
+      <div className="mb-24">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold tracking-tighter mb-4">The Process</h2>
+          <p className="text-muted-foreground">Three steps to social proof.</p>
+        </div>
+        <div className="grid gap-8 md:grid-cols-3">
+          {processSteps.map((step, index) => (
+            <div key={index} className="flex flex-col items-center text-center p-4">
+              <div className="mb-4 p-3 bg-primary/10 rounded-full">
+                <step.icon className="h-8 w-8 text-primary" />
+              </div>
+              <h3 className="text-xl font-bold mb-2">{step.title}</h3>
+              <p className="text-muted-foreground">{step.description}</p>
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {features.map((feature, index) => (
-          <Card key={index} className="group relative overflow-hidden transition-all hover:shadow-md hover:border-primary/20">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-            <CardHeader>
-              <feature.icon className="h-10 w-10 text-primary mb-4" />
-              <CardTitle>{feature.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <CardDescription className="text-base">{feature.description}</CardDescription>
-            </CardContent>
-          </Card>
-        ))}
+
+      {/* Why Askr */}
+      <div>
+        <div className="text-center mb-16">
+          <h2 className="text-3xl font-bold tracking-tighter mb-4">Why Askr?</h2>
+          <p className="text-muted-foreground">Built for speed. Optimized for developers.</p>
+        </div>
+        <div className="grid gap-6 sm:grid-cols-3">
+          {whyAskr.map((item, index) => (
+            <Card key={index} className="bg-muted/30 border-none shadow-none">
+              <CardHeader>
+                <item.icon className="h-8 w-8 text-primary mb-2" />
+                <CardTitle className="text-lg">{item.title}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-sm text-muted-foreground">{item.description}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
+
     </section>
   )
 }

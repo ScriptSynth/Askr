@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Star } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 
@@ -12,50 +12,34 @@ export function Hero() {
       <div className="absolute inset-0 z-0 h-full w-full bg-background bg-grid-pattern opacity-40" />
 
       <div className="container relative z-10 px-4 md:px-6 mx-auto flex flex-col items-center text-center">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 text-foreground mb-4 bg-muted/50"
-        >
-          <span className="flex h-2 w-2 rounded-full bg-primary mr-2"></span>
-          New: Embed Widgets 2.0
-        </motion.div>
-
+        
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
           className="text-4xl font-extrabold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl max-w-4xl bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/70"
         >
-          Capture User Feedback. <br className="hidden sm:inline" />
-          Generate Social Proof.
+          Add social proof to your site in 60 seconds.
         </motion.h1>
 
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-6 max-w-2xl text-lg text-muted-foreground sm:text-xl"
-        >
-          Facto turns user feedback into a beautiful hosted "Wall of Love" in
-          seconds. Collect testimonials, showcase them, and grow your SaaS.
-        </motion.p>
+        <p className="max-w-[600px] mt-4 text-lg text-muted-foreground sm:text-xl">
+          A single script tag. Connects to Supabase. Displays your customer feedback without the bloat.
+        </p>
 
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.3 }}
-          className="mt-10 flex flex-col sm:flex-row gap-4 justify-center"
+          className="mt-8 flex flex-col sm:flex-row gap-4 justify-center"
         >
           <Link href="/auth">
             <Button size="lg" className="h-12 px-8 text-base">
-              Start for free
+              Get Started for Free
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
           <Button size="lg" variant="outline" className="h-12 px-8 text-base">
-            View Demo
+            Read the Docs
           </Button>
         </motion.div>
 

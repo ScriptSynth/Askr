@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
-import { Layers, Loader2 } from "lucide-react"
+import { Loader2 } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 
 export default function AuthPage() {
@@ -62,8 +63,15 @@ export default function AuthPage() {
       <div className="z-10 w-full max-w-md space-y-8 px-4">
         <div className="flex flex-col items-center space-y-2 text-center">
           <Link href="/" className="mb-4">
-             <div className="flex h-10 w-10 items-center justify-center rounded-xl border bg-background shadow-sm">
-                <Layers className="h-6 w-6" />
+             <div className="flex h-24 w-24 items-center justify-center rounded-2xl border bg-background shadow-sm overflow-hidden p-3">
+                <Image 
+                  src="/logo.png" 
+                  alt="Askr Logo" 
+                  width={200} 
+                  height={200} 
+                  className="h-full w-full object-contain" 
+                  priority
+                />
              </div>
           </Link>
           <h1 className="text-2xl font-semibold tracking-tight">

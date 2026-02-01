@@ -89,8 +89,8 @@ export default async function IntegrationPage({
       <header className="sticky top-0 z-50 w-full border-b border-violet-100/70 bg-white/80 backdrop-blur-xl shadow-sm">
         <div className="container flex h-16 items-center mx-auto px-4 md:px-6">
           <Link href="/" className="mr-8 flex items-center space-x-2 group">
-            <div className="h-9 w-9 rounded-xl overflow-hidden shadow-lg group-hover:shadow-xl transition-all group-hover:scale-105">
-              <Image src="/logo.png" alt="Askr logo" width={36} height={36} className="h-full w-full object-contain" />
+            <div className="h-14 w-14 rounded-2xl overflow-hidden shadow-lg group-hover:shadow-xl transition-all group-hover:scale-105">
+              <Image src="/logo.png" alt="Askr logo" width={56} height={56} className="h-full w-full object-contain" />
             </div>
             <span className="font-heading font-bold text-xl">Askr</span>
           </Link>
@@ -230,8 +230,8 @@ export default async function IntegrationPage({
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="h-8 w-8 rounded-xl overflow-hidden">
-                <Image src="/logo.png" alt="Askr logo" width={32} height={32} className="h-full w-full object-contain" />
+              <div className="h-12 w-12 rounded-2xl overflow-hidden">
+                <Image src="/logo.png" alt="Askr logo" width={48} height={48} className="h-full w-full object-contain" />
               </div>
               <span className="font-bold">Askr</span>
             </Link>

@@ -9,8 +9,8 @@ export function SiteFooter() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center space-x-2 mb-4">
-              <div className="h-9 w-9 rounded-xl overflow-hidden shadow-lg">
-                <Image src="/logo.png" alt="Askr logo" width={36} height={36} className="h-full w-full object-contain" />
+              <div className="h-14 w-14 rounded-2xl overflow-hidden shadow-lg">
+                <Image src="/logo.png" alt="Askr logo" width={56} height={56} className="h-full w-full object-contain" />
               </div>
               <span className="font-heading font-bold text-xl">Askr</span>
             </Link>

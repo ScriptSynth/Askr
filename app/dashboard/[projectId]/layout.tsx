@@ -51,8 +51,8 @@ export default async function ProjectLayout({
           </Button>
           <div className="h-6 w-px bg-violet-200/70" />
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl overflow-hidden shadow">
-              <Image src="/logo.png" alt="Askr logo" width={36} height={36} className="h-full w-full object-contain" />
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl overflow-hidden shadow">
+              <Image src="/logo.png" alt="Askr logo" width={56} height={56} className="h-full w-full object-contain" />
             </div>
             <div className="flex flex-col">
               <span className="text-sm font-semibold leading-none">{project.name}</span>

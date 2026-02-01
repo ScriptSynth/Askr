@@ -1,10 +1,13 @@
 (function() {
     // Prevent multiple injections
     if (window.AskrWidgetInitialized) return;
+    if (document.getElementById('askr-widget-container')) return;
     window.AskrWidgetInitialized = true;
   
     // Get configuration
     const scriptTag = document.currentScript;
+    if (scriptTag && scriptTag.dataset && scriptTag.dataset.askrMounted) return;
+    if (scriptTag && scriptTag.dataset) scriptTag.dataset.askrMounted = 'true';
     const projectId = scriptTag?.getAttribute('data-project-id') || scriptTag?.getAttribute('data-project-slug');
   
     if (!projectId) {
@@ -35,10 +38,10 @@
     container.id = 'askr-widget-container';
     Object.assign(container.style, {
       position: 'fixed',
-      bottom: '20px',
-      right: '20px',
-      width: '400px',
-      height: '600px',
+      bottom: '16px',
+      right: '16px',
+      width: 'min(92vw, 420px)',
+      height: 'min(85vh, 640px)',
       zIndex: '9999',
       border: 'none',
       overflow: 'hidden',

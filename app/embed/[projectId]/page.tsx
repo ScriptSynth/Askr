@@ -155,7 +155,7 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
       <motion.div
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="relative w-full max-w-[380px] overflow-hidden shadow-2xl border-2"
+        className="relative w-full max-w-[92vw] sm:max-w-[420px] overflow-hidden shadow-2xl border-2"
         style={{
           backgroundColor: settings.widget_bg_color,
           color: settings.widget_text_color,
@@ -308,9 +308,10 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
                 Powered by
                 <span className="ml-1 inline-flex items-center gap-1 font-semibold">
                   Askr
-                  <Image src="/logo.png" alt="Askr logo" width={12} height={12} className="h-3 w-3" />
+                  <Image src="/logo.png" alt="Askr logo" width={20} height={20} className="h-5 w-5" />
                 </span>
               </div>
+        )}
       </motion.div>
     </div>
   )

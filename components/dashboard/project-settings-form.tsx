@@ -586,7 +586,7 @@ export function ProjectSettingsForm({ project }: { project: Project }) {
                     Powered by
                     <span className="ml-1 inline-flex items-center gap-1 font-semibold">
                       Askr
-                      <Image src="/logo.png" alt="Askr logo" width={12} height={12} className="h-3 w-3" />
+                      <Image src="/logo.png" alt="Askr logo" width={20} height={20} className="h-5 w-5" />
                     </span>
                   </div>
                 )}

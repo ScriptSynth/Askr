@@ -40,8 +40,8 @@ export default async function DashboardPage() {
       <aside className="fixed left-0 top-0 z-40 hidden h-full w-64 border-r border-violet-100/70 bg-white/70 backdrop-blur-xl lg:block">
         <div className="flex h-16 items-center border-b border-violet-100/70 px-6">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl overflow-hidden shadow-lg group-hover:shadow-xl transition-all group-hover:scale-105">
-              <Image src="/logo.png" alt="Askr logo" width={36} height={36} className="h-full w-full object-contain" />
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl overflow-hidden shadow-lg group-hover:shadow-xl transition-all group-hover:scale-105">
+              <Image src="/logo.png" alt="Askr logo" width={56} height={56} className="h-full w-full object-contain" />
             </div>
             <span className="font-heading text-lg font-bold">Askr</span>
           </Link>
@@ -87,8 +87,8 @@ export default async function DashboardPage() {
       {/* Mobile Header */}
       <header className="sticky top-0 z-30 flex h-16 items-center border-b border-violet-100/70 bg-white/80 backdrop-blur-xl px-4 lg:hidden">
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg overflow-hidden shadow">
-            <Image src="/logo.png" alt="Askr logo" width={32} height={32} className="h-full w-full object-contain" />
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl overflow-hidden shadow">
+            <Image src="/logo.png" alt="Askr logo" width={48} height={48} className="h-full w-full object-contain" />
           </div>
           <span className="font-heading text-lg font-bold">Askr</span>
         </Link>

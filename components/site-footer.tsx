@@ -1,5 +1,5 @@
 import Link from "next/link"
-import Image from "next/image"
+import { Zap } from "lucide-react"
 
 export function SiteFooter() {
   return (
@@ -9,8 +9,8 @@ export function SiteFooter() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center space-x-2 mb-4">
-              <div className="h-14 w-14 rounded-2xl overflow-hidden shadow-lg">
-                <Image src="/logo.png" alt="Askr logo" width={56} height={56} className="h-full w-full object-contain" />
+              <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-violet-600 to-blue-600 shadow-lg flex items-center justify-center">
+                <Zap className="h-6 w-6 text-white fill-white" />
               </div>
               <span className="font-heading font-bold text-xl">Askr</span>
             </Link>

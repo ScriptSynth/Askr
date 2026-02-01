@@ -9,7 +9,6 @@ import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
 import { Loader2, ArrowLeft, Sparkles, Star, Zap, Heart, PartyPopper, Rocket, Mail, Lock, User, ArrowRight, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
 import { motion, AnimatePresence } from "framer-motion"
 
 type AuthMode = "login" | "signup" | "forgot"
@@ -138,15 +137,11 @@ export default function AuthPage() {
 
         {/* Content */}
         <div className="relative z-10 flex flex-col justify-center px-12 xl:px-20">
-          <Link href="/" className="mb-12">
-            <Image 
-              src="/logo.png" 
-              alt="Askr" 
-              width={240} 
-              height={80} 
-              className="h-20 w-auto drop-shadow-lg" 
-              priority
-            />
+          <Link href="/" className="mb-12 flex items-center gap-3">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg">
+              <Zap className="h-8 w-8 text-white fill-white" />
+            </div>
+            <span className="text-4xl font-bold text-white">Askr</span>
           </Link>
 
           <motion.h1 
@@ -239,15 +234,11 @@ export default function AuthPage() {
 
         {/* Mobile logo */}
         <div className="lg:hidden flex justify-center mb-8 mt-8">
-          <Link href="/">
-            <Image 
-              src="/logo.png" 
-              alt="Askr" 
-              width={160} 
-              height={56} 
-              className="h-14 w-auto" 
-              priority
-            />
+          <Link href="/" className="flex items-center gap-2">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 shadow-lg">
+              <Zap className="h-6 w-6 text-white fill-white" />
+            </div>
+            <span className="text-2xl font-bold">Askr</span>
           </Link>
         </div>
 

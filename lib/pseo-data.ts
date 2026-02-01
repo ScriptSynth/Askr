@@ -121,36 +121,6 @@ export const useCases: PseoPage[] = [
   }
 ]
 
-const generatedIntegrations: PseoPage[] = Array.from({ length: 500 }, (_, index) => {
-  const id = (index + 1).toString().padStart(3, "0")
-  return {
-    slug: `integration-${id}`,
-    title: `Testimonial Widget for Platform ${id}`,
-    description: `Add Askr's testimonial widget to Platform ${id} in minutes. Lightweight, customizable, and built for conversions.`,
-    headline: `Platform ${id} Testimonials That Convert`,
-    subheadline: `Collect and display reviews on Platform ${id} with a fast, customizable widget that matches your brand.`,
-    benefits: [
-      "One-line embed",
-      "Fast load times",
-      "Custom branding",
-      "Mobile responsive"
-    ],
-    features: [
-      "Instant install",
-      "Theme controls",
-      "Real-time updates",
-      "No-code setup"
-    ],
-    cta: "Start Free",
-    icon: "Sparkles"
-  }
-})
-
-export const integrations: PseoPage[] = [
-  ...baseIntegrations,
-  ...generatedIntegrations
-]
-
 // Industries - Who uses Askr
 export const industries: PseoPage[] = [
   {
@@ -451,6 +421,37 @@ const baseIntegrations: PseoPage[] = [
     cta: "Connect with Zapier",
     icon: "Zap"
   }
+]
+
+// Generated 500 additional integrations
+const generatedIntegrations: PseoPage[] = Array.from({ length: 500 }, (_, index) => {
+  const id = (index + 1).toString().padStart(3, "0")
+  return {
+    slug: `platform-${id}`,
+    title: `Testimonial Widget for Platform ${id}`,
+    description: `Add Askr's testimonial widget to Platform ${id} in minutes. Lightweight, customizable, and built for conversions.`,
+    headline: `Platform ${id} Testimonials That Convert`,
+    subheadline: `Collect and display reviews on Platform ${id} with a fast, customizable widget that matches your brand.`,
+    benefits: [
+      "One-line embed",
+      "Fast load times",
+      "Custom branding",
+      "Mobile responsive"
+    ],
+    features: [
+      "Instant install",
+      "Theme controls",
+      "Real-time updates",
+      "No-code setup"
+    ],
+    cta: "Start Free",
+    icon: "Zap"
+  }
+})
+
+export const integrations: PseoPage[] = [
+  ...baseIntegrations,
+  ...generatedIntegrations
 ]
 
 // Helper to get all pages for sitemap

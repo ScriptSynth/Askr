@@ -7,9 +7,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { toast } from "sonner"
-import { Loader2, Lock, ArrowRight, CheckCircle2, KeyRound, Sparkles } from "lucide-react"
+import { Loader2, Lock, ArrowRight, CheckCircle2, KeyRound, Sparkles, Zap } from "lucide-react"
 import Link from "next/link"
-import Image from "next/image"
 import { motion } from "framer-motion"
 
 export default function ResetPasswordPage() {
@@ -115,15 +114,11 @@ export default function ResetPasswordPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="flex justify-center mb-8">
-          <Link href="/">
-            <Image 
-              src="/logo.png" 
-              alt="Askr" 
-              width={160} 
-              height={56} 
-              className="h-14 w-auto" 
-              priority
-            />
+          <Link href="/" className="flex items-center gap-2">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 shadow-lg">
+              <Zap className="h-6 w-6 text-white fill-white" />
+            </div>
+            <span className="text-2xl font-bold">Askr</span>
           </Link>
         </div>
 

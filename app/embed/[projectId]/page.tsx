@@ -2,8 +2,7 @@
 
 import { useState, use, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Star, Check, X, MessageSquare } from "lucide-react"
-import Image from "next/image"
+import { Star, Check, X, MessageSquare, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
@@ -308,7 +307,7 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
                 Powered by
                 <span className="ml-1 inline-flex items-center gap-1 font-semibold">
                   Askr
-                  <Image src="/logo.png" alt="Askr logo" width={20} height={20} className="h-5 w-5" />
+                  <Zap className="h-4 w-4 text-violet-600 fill-violet-600" />
                 </span>
               </div>
         )}

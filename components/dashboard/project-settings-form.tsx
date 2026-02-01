@@ -9,8 +9,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Separator } from "@/components/ui/separator"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-import { Loader2, Palette, Type, Settings2, Sparkles, Star, MessageSquare, Check, X, RotateCcw } from "lucide-react"
-import Image from "next/image"
+import { Loader2, Palette, Type, Settings2, Sparkles, Star, MessageSquare, Check, X, RotateCcw, Zap } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface Project {
@@ -586,7 +585,7 @@ export function ProjectSettingsForm({ project }: { project: Project }) {
                     Powered by
                     <span className="ml-1 inline-flex items-center gap-1 font-semibold">
                       Askr
-                      <Image src="/logo.png" alt="Askr logo" width={20} height={20} className="h-5 w-5" />
+                      <Zap className="h-4 w-4 text-violet-600 fill-violet-600" />
                     </span>
                   </div>
                 )}

@@ -1,6 +1,7 @@
 import { createClient } from "@/utils/supabase/server"
 import { redirect } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Plus, LayoutGrid, Activity, LogOut, Settings, Zap, MessageSquare, Star, TrendingUp, Clock, ChevronRight, Sparkles } from "lucide-react"
@@ -39,8 +40,8 @@ export default async function DashboardPage() {
       <aside className="fixed left-0 top-0 z-40 hidden h-full w-64 border-r border-violet-100/70 bg-white/70 backdrop-blur-xl lg:block">
         <div className="flex h-16 items-center border-b border-violet-100/70 px-6">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 shadow-lg group-hover:shadow-xl transition-all group-hover:scale-105">
-              <Sparkles className="h-5 w-5 text-white" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl overflow-hidden shadow-lg group-hover:shadow-xl transition-all group-hover:scale-105">
+              <Image src="/logo.png" alt="Askr logo" width={36} height={36} className="h-full w-full object-contain" />
             </div>
             <span className="font-heading text-lg font-bold">Askr</span>
           </Link>
@@ -86,8 +87,8 @@ export default async function DashboardPage() {
       {/* Mobile Header */}
       <header className="sticky top-0 z-30 flex h-16 items-center border-b border-violet-100/70 bg-white/80 backdrop-blur-xl px-4 lg:hidden">
         <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-blue-600 shadow">
-            <Sparkles className="h-4 w-4 text-white" />
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg overflow-hidden shadow">
+            <Image src="/logo.png" alt="Askr logo" width={32} height={32} className="h-full w-full object-contain" />
           </div>
           <span className="font-heading text-lg font-bold">Askr</span>
         </Link>

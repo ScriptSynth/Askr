@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 import Link from "next/link"
+import Image from "next/image"
 import { useCases } from "@/lib/pseo-data"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -84,8 +85,8 @@ export default async function UseCasePage({
       <header className="sticky top-0 z-50 w-full border-b border-violet-100/70 bg-white/80 backdrop-blur-xl shadow-sm">
         <div className="container flex h-16 items-center mx-auto px-4 md:px-6">
           <Link href="/" className="mr-8 flex items-center space-x-2 group">
-            <div className="p-2 rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 shadow-lg group-hover:shadow-xl transition-all group-hover:scale-105">
-              <Sparkles className="h-5 w-5 text-white" />
+            <div className="h-9 w-9 rounded-xl overflow-hidden shadow-lg group-hover:shadow-xl transition-all group-hover:scale-105">
+              <Image src="/logo.png" alt="Askr logo" width={36} height={36} className="h-full w-full object-contain" />
             </div>
             <span className="font-heading font-bold text-xl">Askr</span>
           </Link>
@@ -206,8 +207,8 @@ export default async function UseCasePage({
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-violet-600 to-blue-600">
-                <Sparkles className="h-4 w-4 text-white" />
+              <div className="h-8 w-8 rounded-xl overflow-hidden">
+                <Image src="/logo.png" alt="Askr logo" width={32} height={32} className="h-full w-full object-contain" />
               </div>
               <span className="font-bold">Askr</span>
             </Link>

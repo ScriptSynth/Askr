@@ -1,6 +1,7 @@
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { Sparkles, ChevronDown } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 
 export function SiteHeader() {
   return (
@@ -8,8 +9,8 @@ export function SiteHeader() {
       <div className="container flex h-16 items-center mx-auto px-4 md:px-6">
         <div className="mr-4 flex">
           <Link href="/" className="mr-8 flex items-center space-x-2 group">
-            <div className="p-2 rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 shadow-lg group-hover:shadow-xl transition-all group-hover:scale-105">
-              <Sparkles className="h-5 w-5 text-white" />
+            <div className="h-9 w-9 rounded-xl overflow-hidden shadow-lg group-hover:shadow-xl transition-all group-hover:scale-105">
+              <Image src="/logo.png" alt="Askr logo" width={36} height={36} className="h-full w-full object-contain" />
             </div>
             <span className="font-heading font-bold text-xl">Askr</span>
           </Link>

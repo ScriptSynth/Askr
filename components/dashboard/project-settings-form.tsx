@@ -10,6 +10,7 @@ import { Separator } from "@/components/ui/separator"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
 import { Loader2, Palette, Type, Settings2, Sparkles, Star, MessageSquare, Check, X, RotateCcw } from "lucide-react"
+import Image from "next/image"
 import { cn } from "@/lib/utils"
 
 interface Project {
@@ -582,7 +583,11 @@ export function ProjectSettingsForm({ project }: { project: Project }) {
                     className="p-2.5 text-center text-[10px] border-t opacity-60"
                     style={{ borderColor: `${widgetTextColor}20` }}
                   >
-                    Powered by <span className="font-semibold">Askr</span>
+                    Powered by
+                    <span className="ml-1 inline-flex items-center gap-1 font-semibold">
+                      Askr
+                      <Image src="/logo.png" alt="Askr logo" width={12} height={12} className="h-3 w-3" />
+                    </span>
                   </div>
                 )}
               </div>

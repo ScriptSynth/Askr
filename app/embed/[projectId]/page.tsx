@@ -3,6 +3,7 @@
 import { useState, use, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Star, Check, X, MessageSquare } from "lucide-react"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
@@ -294,16 +295,19 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
         </div>
         
         {step !== 'success' && settings.widget_show_branding && (
-            <div 
-              className="p-3 text-center text-[10px] border-t"
-              style={{ 
-                borderColor: `${settings.widget_text_color}15`,
-                backgroundColor: `${settings.widget_text_color}05`
-              }}
-            >
-              Powered by <span className="font-semibold">Askr</span>
-            </div>
-        )}
+              <div 
+                className="p-3 text-center text-[10px] border-t"
+                style={{ 
+                  borderColor: `${settings.widget_text_color}15`,
+                  backgroundColor: `${settings.widget_text_color}05`
+                }}
+              >
+                Powered by
+                <span className="ml-1 inline-flex items-center gap-1 font-semibold">
+                  Askr
+                  <Image src="/logo.png" alt="Askr logo" width={12} height={12} className="h-3 w-3" />
+                </span>
+              </div>
       </motion.div>
     </div>
   )

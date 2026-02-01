@@ -55,6 +55,7 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
       const { data } = await supabase
         .from("projects")
         .select(`
+          id,
           widget_primary_color,
           widget_bg_color,
           widget_text_color,
@@ -66,7 +67,7 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
           widget_success_message,
           widget_show_branding
         `)
-        .eq("id", projectId)
+        .or(`id.eq.${projectId},slug.eq.${projectId}`)
         .single()
 
       if (data) {
@@ -85,13 +86,15 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
       }
 
       // Mark widget as connected (ping)
-      await supabase
-        .from("projects")
-        .update({ 
-          widget_connected: true, 
-          widget_last_ping: new Date().toISOString() 
-        })
-        .eq("id", projectId)
+      if (data?.id) {
+        await supabase
+          .from("projects")
+          .update({ 
+            widget_connected: true, 
+            widget_last_ping: new Date().toISOString() 
+          })
+          .eq("id", data.id)
+      }
       
       setLoaded(true)
     }

@@ -5,7 +5,7 @@
   
     // Get configuration
     const scriptTag = document.currentScript;
-    const projectId = scriptTag.getAttribute('data-project-id');
+    const projectId = scriptTag?.getAttribute('data-project-id') || scriptTag?.getAttribute('data-project-slug');
   
     if (!projectId) {
       console.error('Askr: data-project-id is required.');

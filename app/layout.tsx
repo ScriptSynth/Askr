@@ -89,6 +89,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const widgetProject =
+    process.env.NEXT_PUBLIC_DEMO_PROJECT_ID ||
+    process.env.NEXT_PUBLIC_DEMO_PROJECT_SLUG ||
+    "demo";
+
   return (
     <html lang="en">
       <head>
@@ -122,13 +127,11 @@ export default function RootLayout({
         className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}
       >
         {children}
-        {process.env.NEXT_PUBLIC_DEMO_PROJECT_ID && (
-          <Script
-            src="/widget.js"
-            data-project-id={process.env.NEXT_PUBLIC_DEMO_PROJECT_ID}
-            strategy="afterInteractive"
-          />
-        )}
+        <Script
+          src="/widget.js"
+          data-project-id={widgetProject}
+          strategy="afterInteractive"
+        />
         <Toaster position="top-center" richColors expand />
         <Analytics />
       </body>

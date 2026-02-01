@@ -21,14 +21,14 @@ export async function POST(request: Request) {
       );
     }
 
-    // Update project widget status
+    // Update project widget status (allow id or slug)
     const { error } = await supabase
       .from("projects")
       .update({
         widget_connected: true,
         widget_last_ping: new Date().toISOString(),
       })
-      .eq("id", project_id);
+      .or(`id.eq.${project_id},slug.eq.${project_id}`);
 
     if (error) {
       return NextResponse.json(

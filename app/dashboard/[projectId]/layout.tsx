@@ -2,8 +2,9 @@ import { createClient } from "@/utils/supabase/server"
 import { notFound, redirect } from "next/navigation"
 import { ProjectNav } from "@/components/dashboard/project-nav"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, LogOut, Sparkles } from "lucide-react"
+import { ArrowLeft, LogOut } from "lucide-react"
 import Link from "next/link"
+import Image from "next/image"
 
 export default async function ProjectLayout({
   children,
@@ -50,8 +51,8 @@ export default async function ProjectLayout({
           </Button>
           <div className="h-6 w-px bg-violet-200/70" />
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 shadow">
-              <Sparkles className="h-4 w-4 text-white" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl overflow-hidden shadow">
+              <Image src="/logo.png" alt="Askr logo" width={36} height={36} className="h-full w-full object-contain" />
             </div>
             <div className="flex flex-col">
               <span className="text-sm font-semibold leading-none">{project.name}</span>

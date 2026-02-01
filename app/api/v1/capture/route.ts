@@ -26,9 +26,23 @@ export async function POST(request: Request) {
       );
     }
 
+    // Resolve project id (allow slug)
+    const { data: project, error: projectError } = await supabase
+      .from("projects")
+      .select("id")
+      .or(`id.eq.${project_id},slug.eq.${project_id}`)
+      .single();
+
+    if (projectError || !project) {
+      return NextResponse.json(
+        { error: "Invalid Project ID" },
+        { status: 404, headers }
+      );
+    }
+
     // Insert review
     const { error: insertError } = await supabase.from("reviews").insert({
-      project_id,
+      project_id: project.id,
       rating,
       content,
       customer_name,

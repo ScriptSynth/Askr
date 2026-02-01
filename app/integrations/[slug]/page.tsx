@@ -88,10 +88,10 @@ export default async function IntegrationPage({
       <header className="sticky top-0 z-50 w-full border-b border-violet-100/70 bg-white/80 backdrop-blur-xl shadow-sm">
         <div className="container flex h-16 items-center mx-auto px-4 md:px-6">
           <Link href="/" className="mr-8 flex items-center space-x-2 group">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 shadow-lg group-hover:shadow-xl transition-all group-hover:scale-105">
-              <Zap className="h-5 w-5 text-white fill-white" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 shadow-md group-hover:shadow-lg transition-all group-hover:scale-105">
+              <Zap className="h-4 w-4 text-white fill-white" />
             </div>
-            <span className="font-heading font-bold text-xl">Askr</span>
+            <span className="font-heading font-bold text-lg">Askr</span>
           </Link>
           <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
             <Link href="/#features" className="transition-all hover:text-violet-600 text-foreground/70">Features</Link>
@@ -229,10 +229,10 @@ export default async function IntegrationPage({
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <Link href="/" className="flex items-center space-x-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-blue-600">
-                <Zap className="h-5 w-5 text-white fill-white" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-violet-600 to-blue-600">
+                <Zap className="h-4 w-4 text-white fill-white" />
               </div>
-              <span className="font-bold">Askr</span>
+              <span className="font-bold text-sm">Askr</span>
             </Link>
             <p className="text-sm text-muted-foreground">
               © {new Date().getFullYear()} Askr. All rights reserved.

@@ -40,36 +40,44 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="font-heading text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl max-w-5xl leading-[1.1]"
+          className="font-heading text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl max-w-5xl leading-[1.05]"
         >
-          The{" "}
-          <span className="relative">
-            <span className="bg-gradient-to-r from-violet-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+          <span className="block text-foreground/90">The</span>
+          <span className="relative inline-block">
+            <span className="bg-gradient-to-r from-violet-600 via-fuchsia-500 to-blue-600 bg-clip-text text-transparent bg-[length:200%_auto] animate-gradient">
               #1 Testimonial Widget
             </span>
-            <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none">
-              <path d="M2 10C50 4 100 4 150 6C200 8 250 4 298 10" stroke="url(#gradient)" strokeWidth="3" strokeLinecap="round"/>
+            <motion.svg 
+              className="absolute -bottom-1 md:-bottom-2 left-0 w-full" 
+              viewBox="0 0 300 12" 
+              fill="none"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 1 }}
+              transition={{ duration: 1, delay: 0.5 }}
+            >
+              <path d="M2 10C50 4 100 4 150 6C200 8 250 4 298 10" stroke="url(#gradient)" strokeWidth="4" strokeLinecap="round"/>
               <defs>
                 <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
                   <stop offset="0%" stopColor="#8b5cf6"/>
+                  <stop offset="50%" stopColor="#d946ef"/>
                   <stop offset="100%" stopColor="#3b82f6"/>
                 </linearGradient>
               </defs>
-            </svg>
+            </motion.svg>
           </span>
           <br />
-          for SaaS Companies
+          <span className="text-foreground/80">for SaaS Companies</span>
         </motion.h1>
 
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="max-w-[700px] mt-8 text-lg text-muted-foreground sm:text-xl md:text-2xl leading-relaxed"
+          className="max-w-[750px] mt-8 text-lg text-muted-foreground sm:text-xl md:text-2xl leading-relaxed font-medium"
         >
-          Collect and display <strong className="text-foreground">customer testimonials</strong> in 60 seconds. 
+          Collect and display <strong className="text-foreground font-semibold bg-gradient-to-r from-violet-600/10 to-blue-600/10 px-1 rounded">customer testimonials</strong> in 60 seconds. 
           One script tag, beautiful social proof widget, 
-          <strong className="text-foreground"> instant trust.</strong>
+          <strong className="text-foreground font-semibold bg-gradient-to-r from-green-500/10 to-emerald-500/10 px-1 rounded"> instant trust.</strong>
         </motion.p>
 
         {/* Feature highlights */}

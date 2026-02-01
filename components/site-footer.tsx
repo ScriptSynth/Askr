@@ -9,10 +9,10 @@ export function SiteFooter() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center space-x-2 mb-4">
-              <div className="h-12 w-12 rounded-2xl bg-gradient-to-br from-violet-600 to-blue-600 shadow-lg flex items-center justify-center">
-                <Zap className="h-6 w-6 text-white fill-white" />
+              <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 shadow-md flex items-center justify-center">
+                <Zap className="h-4 w-4 text-white fill-white" />
               </div>
-              <span className="font-heading font-bold text-xl">Askr</span>
+              <span className="font-heading font-bold text-lg">Askr</span>
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
               The #1 testimonial widget for SaaS. Collect and display customer reviews in 60 seconds.

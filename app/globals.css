@@ -130,6 +130,16 @@
   font-family: var(--font-space-grotesk), system-ui, sans-serif;
 }
 
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.animate-gradient {
+  animation: gradient 3s ease infinite;
+}
+
 @utility bg-grid-pattern {
   background-size: 40px 40px;
   background-image: linear-gradient(to right, var(--border) 1px, transparent 1px),

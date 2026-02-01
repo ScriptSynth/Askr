@@ -18,6 +18,24 @@ create table public.projects (
   name text not null,
   domain text,
   slug text unique not null,
+  -- Widget customization fields
+  widget_primary_color text default '#000000',
+  widget_bg_color text default '#ffffff',
+  widget_text_color text default '#000000',
+  widget_border_radius text default '16',
+  widget_position text default 'bottom-right',
+  widget_theme text default 'light',
+  widget_title text default 'How was your experience?',
+  widget_subtitle text default 'Help us improve this project.',
+  widget_button_text text default 'Submit Feedback',
+  widget_success_title text default 'Thank you!',
+  widget_success_message text default 'Your feedback helps us grow.',
+  widget_show_branding boolean default true,
+  widget_trigger_delay integer default 5,
+  widget_trigger_scroll integer default 50,
+  -- Tracking
+  widget_connected boolean default false,
+  widget_last_ping timestamp with time zone,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
@@ -51,11 +69,20 @@ create policy "Users can update own profile" on public.profiles
 create policy "Users can view own projects" on public.projects
   for select using (auth.uid() = owner_id);
 
+-- Allow widget to read project settings (public read for widget customization)
+create policy "Public can read project widget settings" on public.projects
+  for select using (true);
+
 create policy "Users can insert own projects" on public.projects
   for insert with check (auth.uid() = owner_id);
 
 create policy "Users can update own projects" on public.projects
   for update using (auth.uid() = owner_id);
+
+-- Allow widget to update connection status
+create policy "Public can update project widget status" on public.projects
+  for update using (true)
+  with check (true);
 
 create policy "Users can delete own projects" on public.projects
   for delete using (auth.uid() = owner_id);

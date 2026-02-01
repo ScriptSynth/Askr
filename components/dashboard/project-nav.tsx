@@ -24,27 +24,29 @@ export function ProjectNav({ projectId }: { projectId: string }) {
   ]
 
   return (
-    <nav className="flex items-center space-x-6 border-b px-6">
-      {tabs.map((tab) => {
-        const isActive = tab.exact 
-          ? pathname === tab.href 
-          : pathname.startsWith(tab.href)
+    <nav className="border-b border-violet-100/70 bg-white/70 backdrop-blur-xl px-6">
+      <div className="flex items-center gap-2 py-3">
+        {tabs.map((tab) => {
+          const isActive = tab.exact
+            ? pathname === tab.href
+            : pathname.startsWith(tab.href)
 
-        return (
-          <Link
-            key={tab.href}
-            href={tab.href}
-            className={cn(
-              "flex items-center border-b-2 py-4 text-sm font-medium transition-colors hover:text-foreground",
-              isActive
-                ? "border-primary text-foreground"
-                : "border-transparent text-muted-foreground"
-            )}
-          >
-            {tab.name}
-          </Link>
-        )
-      })}
+          return (
+            <Link
+              key={tab.href}
+              href={tab.href}
+              className={cn(
+                "rounded-full px-4 py-2 text-sm font-medium transition-all",
+                isActive
+                  ? "bg-gradient-to-r from-violet-600 to-blue-600 text-white shadow-sm"
+                  : "text-muted-foreground hover:text-foreground hover:bg-violet-50"
+              )}
+            >
+              {tab.name}
+            </Link>
+          )
+        })}
+      </div>
     </nav>
   )
 }

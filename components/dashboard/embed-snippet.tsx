@@ -15,7 +15,7 @@ export function EmbedSnippet({ projectId }: EmbedSnippetProps) {
 
   // In production, this URL should be dynamic or fixed to the deployment domain
   const scriptCode = `<script 
-  src="${typeof window !== 'undefined' ? window.location.origin : 'https://facto.me'}/widget.js" 
+  src="${typeof window !== 'undefined' ? window.location.origin : 'https://askr.me'}/widget.js" 
   data-project-id="${projectId}" 
   async
 ></script>`
@@ -28,7 +28,7 @@ export function EmbedSnippet({ projectId }: EmbedSnippetProps) {
   }
 
   return (
-    <Card>
+    <Card className="bg-white/75 backdrop-blur-xl border border-violet-100/70 shadow-lg">
       <CardHeader>
         <CardTitle>Embed Widget</CardTitle>
         <CardDescription>
@@ -36,12 +36,12 @@ export function EmbedSnippet({ projectId }: EmbedSnippetProps) {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="relative rounded-md bg-muted p-4 font-mono text-sm overflow-x-auto">
+        <div className="relative rounded-xl bg-violet-50/70 backdrop-blur-sm border border-violet-100/70 p-4 font-mono text-sm overflow-x-auto shadow-inner">
             <pre>{scriptCode}</pre>
             <Button
                 size="icon"
                 variant="ghost"
-                className="absolute right-2 top-2 h-8 w-8 hover:bg-background"
+                className="absolute right-2 top-2 h-8 w-8 hover:bg-background hover:scale-110 transition-all"
                 onClick={copyToClipboard}
             >
                 {copied ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}

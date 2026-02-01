@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, use } from "react"
+import { useState, use, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Star, Check, X, MessageSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -8,6 +8,33 @@ import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { cn } from "@/lib/utils"
+import { createClient } from "@/utils/supabase/client"
+
+interface WidgetSettings {
+  widget_primary_color: string
+  widget_bg_color: string
+  widget_text_color: string
+  widget_border_radius: string
+  widget_title: string
+  widget_subtitle: string
+  widget_button_text: string
+  widget_success_title: string
+  widget_success_message: string
+  widget_show_branding: boolean
+}
+
+const defaultSettings: WidgetSettings = {
+  widget_primary_color: "#000000",
+  widget_bg_color: "#ffffff",
+  widget_text_color: "#000000",
+  widget_border_radius: "16",
+  widget_title: "How was your experience?",
+  widget_subtitle: "Help us improve this project.",
+  widget_button_text: "Submit Feedback",
+  widget_success_title: "Thank you!",
+  widget_success_message: "Your feedback helps us grow.",
+  widget_show_branding: true
+}
 
 export default function WidgetPage({ params }: { params: Promise<{ projectId: string }> }) {
   const [rating, setRating] = useState(0)
@@ -15,8 +42,61 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
   const [name, setName] = useState("")
   const [step, setStep] = useState<"rating" | "details" | "success">("rating")
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [settings, setSettings] = useState<WidgetSettings>(defaultSettings)
+  const [loaded, setLoaded] = useState(false)
 
   const { projectId } = use(params)
+  const supabase = createClient()
+
+  // Fetch widget settings
+  useEffect(() => {
+    const fetchSettings = async () => {
+      const { data } = await supabase
+        .from("projects")
+        .select(`
+          widget_primary_color,
+          widget_bg_color,
+          widget_text_color,
+          widget_border_radius,
+          widget_title,
+          widget_subtitle,
+          widget_button_text,
+          widget_success_title,
+          widget_success_message,
+          widget_show_branding
+        `)
+        .eq("id", projectId)
+        .single()
+
+      if (data) {
+        setSettings({
+          widget_primary_color: data.widget_primary_color || defaultSettings.widget_primary_color,
+          widget_bg_color: data.widget_bg_color || defaultSettings.widget_bg_color,
+          widget_text_color: data.widget_text_color || defaultSettings.widget_text_color,
+          widget_border_radius: data.widget_border_radius || defaultSettings.widget_border_radius,
+          widget_title: data.widget_title || defaultSettings.widget_title,
+          widget_subtitle: data.widget_subtitle || defaultSettings.widget_subtitle,
+          widget_button_text: data.widget_button_text || defaultSettings.widget_button_text,
+          widget_success_title: data.widget_success_title || defaultSettings.widget_success_title,
+          widget_success_message: data.widget_success_message || defaultSettings.widget_success_message,
+          widget_show_branding: data.widget_show_branding !== false
+        })
+      }
+
+      // Mark widget as connected (ping)
+      await supabase
+        .from("projects")
+        .update({ 
+          widget_connected: true, 
+          widget_last_ping: new Date().toISOString() 
+        })
+        .eq("id", projectId)
+      
+      setLoaded(true)
+    }
+
+    fetchSettings()
+  }, [projectId, supabase])
 
   const handleSubmit = async () => {
     setIsSubmitting(true)
@@ -34,12 +114,10 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
 
       if (res.ok) {
         setStep("success")
-        // Notify parent window to maybe close after a delay
         setTimeout(() => {
-             window.parent.postMessage({ type: 'facto-widget-close' }, '*');
+             window.parent.postMessage({ type: 'askr-widget-close' }, '*');
         }, 3000);
       } else {
-          // Handle error
           console.error("Failed to submit")
       }
     } catch (e) {
@@ -50,8 +128,18 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
   }
 
   const closeWidget = () => {
-    window.parent.postMessage({ type: 'facto-widget-close' }, '*');
+    window.parent.postMessage({ type: 'askr-widget-close' }, '*');
   }
+
+  if (!loaded) {
+    return (
+      <div className="flex items-end justify-end min-h-screen p-4 bg-transparent">
+        <div className="w-full max-w-[380px] h-[280px] rounded-2xl bg-card/50 animate-pulse" />
+      </div>
+    )
+  }
+
+  const borderRadius = `${settings.widget_border_radius}px`
 
   return (
     <div className="flex items-end justify-end min-h-screen p-4 bg-transparent">
@@ -60,23 +148,26 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
             background: transparent !important;
         }
       `}</style>
-        {/* We use a transparent background for the page so the iframe can be seamless. 
-            The actual card is the visible part. */}
       <motion.div
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="relative w-full max-w-[350px] overflow-hidden rounded-xl border bg-background shadow-2xl"
+        className="relative w-full max-w-[380px] overflow-hidden shadow-2xl border-2"
+        style={{
+          backgroundColor: settings.widget_bg_color,
+          color: settings.widget_text_color,
+          borderRadius: borderRadius,
+          borderColor: `${settings.widget_text_color}15`
+        }}
       >
-        <Button
-            variant="ghost"
-            size="icon"
-            className="absolute right-2 top-2 h-6 w-6 text-muted-foreground hover:text-foreground z-10"
+        <button
+            className="absolute right-3 top-3 h-8 w-8 rounded-full flex items-center justify-center hover:bg-black/5 z-10 transition-all hover:scale-110"
             onClick={closeWidget}
+            style={{ color: settings.widget_text_color }}
         >
             <X className="h-4 w-4" />
-        </Button>
+        </button>
 
-        <div className="p-6">
+        <div className="p-6 pb-4">
           <AnimatePresence mode="wait">
             {step === "rating" && (
               <motion.div
@@ -86,24 +177,32 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
                 exit={{ opacity: 0, x: -20 }}
                 className="flex flex-col items-center space-y-4 text-center"
               >
-                <div className="rounded-full bg-primary/10 p-3">
-                  <MessageSquare className="h-6 w-6 text-primary" />
+                <div 
+                  className="rounded-full p-4 shadow-lg"
+                  style={{ backgroundColor: `${settings.widget_primary_color}20` }}
+                >
+                  <MessageSquare 
+                    className="h-7 w-7" 
+                    style={{ color: settings.widget_primary_color }} 
+                  />
                 </div>
                 <div>
-                  <h3 className="font-semibold">How was your experience?</h3>
-                  <p className="text-xs text-muted-foreground">
-                    Help us improve this project.
+                  <h3 className="font-semibold text-lg" style={{ color: settings.widget_text_color }}>
+                    {settings.widget_title}
+                  </h3>
+                  <p className="text-sm mt-1 opacity-70">
+                    {settings.widget_subtitle}
                   </p>
                 </div>
-                <div className="flex gap-1">
+                <div className="flex gap-2 py-2">
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}
                       className={cn(
-                        "transition-all hover:scale-125 focus:outline-none",
+                        "transition-all hover:scale-125 focus:outline-none p-1 rounded-lg",
                         rating >= star
-                          ? "text-yellow-500 drop-shadow-[0_0_3px_rgba(234,179,8,0.6)]"
-                          : "text-muted-foreground/30 hover:text-yellow-500/50"
+                          ? "text-yellow-500 drop-shadow-[0_0_4px_rgba(234,179,8,0.6)]"
+                          : "text-gray-300 hover:text-yellow-500/50"
                       )}
                       onClick={() => {
                         setRating(star)
@@ -111,7 +210,7 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
                       }}
                     >
                       <Star
-                        className={cn("h-8 w-8", rating >= star && "fill-current")}
+                        className={cn("h-9 w-9", rating >= star && "fill-current")}
                       />
                     </button>
                   ))}
@@ -128,32 +227,48 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
                 className="space-y-4"
               >
                 <div className="space-y-2">
-                  <Label htmlFor="content">Care to share more? (Optional)</Label>
+                  <Label htmlFor="content" className="text-sm font-medium">
+                    Care to share more? (Optional)
+                  </Label>
                   <Textarea
                     id="content"
                     placeholder="Your feedback helps us improve..."
-                    className="min-h-[80px] resize-none focus-visible:ring-yellow-500 transition-colors hover:border-yellow-400"
+                    className="min-h-[100px] resize-none transition-colors border-2"
+                    style={{
+                      borderColor: `${settings.widget_primary_color}30`,
+                      backgroundColor: `${settings.widget_text_color}05`
+                    }}
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                   />
                 </div>
                 <div className="space-y-2">
-                    <Label htmlFor="name">Your Name (Optional)</Label>
+                    <Label htmlFor="name" className="text-sm font-medium">
+                      Your Name (Optional)
+                    </Label>
                     <Input 
                         id="name"
                         placeholder="Anonymous"
-                        className="focus-visible:ring-yellow-500 transition-colors hover:border-yellow-400"
+                        className="transition-colors border-2"
+                        style={{
+                          borderColor: `${settings.widget_primary_color}30`,
+                          backgroundColor: `${settings.widget_text_color}05`
+                        }}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
                 </div>
-                <Button 
-                    className="w-full transition-all hover:scale-[1.02] active:scale-[0.98]" 
+                <button 
+                    className="w-full py-3 font-medium text-white transition-all hover:opacity-90 shadow-lg hover:shadow-xl"
+                    style={{ 
+                      backgroundColor: settings.widget_primary_color,
+                      borderRadius: `${Math.min(Number(settings.widget_border_radius), 12)}px`
+                    }}
                     onClick={handleSubmit} 
                     disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Sending..." : "Submit Feedback"}
-                </Button>
+                  {isSubmitting ? "Sending..." : settings.widget_button_text}
+                </button>
               </motion.div>
             )}
 
@@ -164,13 +279,13 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
                 animate={{ opacity: 1, scale: 1 }}
                 className="flex flex-col items-center justify-center space-y-4 py-8 text-center"
               >
-                <div className="rounded-full bg-green-500/10 p-4 text-green-500">
-                  <Check className="h-8 w-8" />
+                <div className="rounded-full bg-green-500/20 p-5 text-green-500 shadow-lg">
+                  <Check className="h-10 w-10" />
                 </div>
                 <div>
-                  <h3 className="font-semibold">Thank you!</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Your feedback helps us grow.
+                  <h3 className="font-semibold text-lg">{settings.widget_success_title}</h3>
+                  <p className="text-sm mt-1 opacity-70">
+                    {settings.widget_success_message}
                   </p>
                 </div>
               </motion.div>
@@ -178,9 +293,15 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
           </AnimatePresence>
         </div>
         
-        {step !== 'success' && (
-            <div className="bg-muted/30 p-2 text-center text-[10px] text-muted-foreground border-t">
-            Powered by <span className="font-semibold">Facto</span>
+        {step !== 'success' && settings.widget_show_branding && (
+            <div 
+              className="p-3 text-center text-[10px] border-t"
+              style={{ 
+                borderColor: `${settings.widget_text_color}15`,
+                backgroundColor: `${settings.widget_text_color}05`
+              }}
+            >
+              Powered by <span className="font-semibold">Askr</span>
             </div>
         )}
       </motion.div>

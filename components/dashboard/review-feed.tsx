@@ -84,55 +84,59 @@ export function ReviewFeed({ initialReviews, projectId }: ReviewFeedProps) {
   }
 
   if (reviews.length === 0) {
-      return (
-          <div className="flex flex-col items-center justify-center min-h-[300px] border border-dashed rounded-lg p-8 text-center animate-in fade-in-50">
-              <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-muted">
-                  <Star className="h-6 w-6 text-muted-foreground" />
-              </div>
-              <h3 className="mt-4 text-lg font-semibold">No reviews yet</h3>
-              <p className="mb-4 mt-2 text-sm text-muted-foreground max-w-sm">
-                  Embed the widget on your site to start collecting feedback. Once you do, they will appear here instantly.
-              </p>
-          </div>
-      )
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[300px] border-2 border-dashed rounded-2xl bg-white/70 backdrop-blur-xl p-12 text-center animate-in fade-in-50 shadow-lg">
+        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-violet-500/20 to-blue-500/10 shadow-lg">
+          <Star className="h-8 w-8 text-violet-600" />
+        </div>
+        <h3 className="mt-6 text-xl font-semibold">No reviews yet</h3>
+        <p className="mb-6 mt-2 text-sm text-muted-foreground max-w-md">
+          Embed the widget on your site to start collecting feedback. Once you do, they will appear here instantly.
+        </p>
+      </div>
+    )
   }
 
   return (
-    <div className="rounded-md border">
+    <div className="rounded-2xl border border-violet-100/70 overflow-hidden bg-white/75 backdrop-blur-xl shadow-lg">
       <Table>
         <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Rating</TableHead>
-            <TableHead>Feedback</TableHead>
-            <TableHead>Customer</TableHead>
-            <TableHead>Date</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
+          <TableRow className="bg-violet-50/70 hover:bg-violet-50/70">
+            <TableHead className="w-[100px] font-semibold">Rating</TableHead>
+            <TableHead className="font-semibold">Feedback</TableHead>
+            <TableHead className="font-semibold">Customer</TableHead>
+            <TableHead className="font-semibold">Date</TableHead>
+            <TableHead className="text-right font-semibold">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {reviews.map((review) => (
-            <TableRow key={review.id}>
+            <TableRow key={review.id} className="hover:bg-violet-50/40 transition-colors">
               <TableCell className="font-medium">
-                <div className="flex items-center text-yellow-500">
-                  <span className="mr-1">{review.rating}</span>
-                  <Star className="h-3 w-3 fill-current" />
+                <div className="flex items-center text-yellow-500 bg-yellow-500/10 rounded-lg px-3 py-2 w-fit">
+                  <span className="mr-1.5 font-bold">{review.rating}</span>
+                  <Star className="h-4 w-4 fill-current" />
                 </div>
               </TableCell>
-              <TableCell className="max-w-[300px] truncate" title={review.content}>
+              <TableCell className="max-w-[300px] truncate font-medium" title={review.content}>
                 {review.content}
               </TableCell>
-              <TableCell>{review.customer_name || "Anonymous"}</TableCell>
+              <TableCell>
+                <span className="bg-violet-50/80 px-3 py-1.5 rounded-lg inline-block border border-violet-100/70">
+                  {review.customer_name || "Anonymous"}
+                </span>
+              </TableCell>
               <TableCell className="text-muted-foreground text-xs">
                 {formatDistanceToNow(new Date(review.created_at), { addSuffix: true })}
               </TableCell>
               <TableCell className="text-right">
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button variant="ghost" size="icon" className="hover:text-destructive">
+                    <Button variant="ghost" size="icon" className="hover:text-destructive hover:bg-destructive/10 transition-all hover:scale-110">
                       <Trash2 className="h-4 w-4" />
                     </Button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent>
+                  <AlertDialogContent className="bg-white/95 backdrop-blur-xl border border-violet-100/70">
                     <AlertDialogHeader>
                       <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                       <AlertDialogDescription>
@@ -141,9 +145,9 @@ export function ReviewFeed({ initialReviews, projectId }: ReviewFeedProps) {
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogCancel className="hover:bg-muted/50">Cancel</AlertDialogCancel>
                       <AlertDialogAction
-                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90 shadow-lg hover:shadow-xl transition-all"
                         onClick={() => handleDelete(review.id)}
                       >
                         Delete

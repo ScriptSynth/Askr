@@ -17,7 +17,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://askr.io"),
+  metadataBase: new URL("https://askr.me"),
   title: {
     default: "Askr - #1 Testimonial & Social Proof Widget for SaaS | Collect Reviews Easily",
     template: "%s | Askr - Social Proof Platform"
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     siteName: "Askr",
-    url: "https://askr.io",
+    url: "https://askr.me",
     images: [
       {
         url: "/og-image.png",
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
     creator: "@askr_io",
   },
   alternates: {
-    canonical: "https://askr.io",
+    canonical: "https://askr.me",
   },
   category: "Technology",
 };

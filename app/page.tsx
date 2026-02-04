@@ -218,7 +218,7 @@ export default function Home() {
       <Script
         src="/widget.js"
         data-project-id="d28ce8a9-d379-42e3-b8ce-5e2c0dac5844"
-        data-origin="https://askr.vercel.app"
+        data-origin="https://askr.me"
         strategy="afterInteractive"
       />
     </div>

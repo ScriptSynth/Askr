@@ -50,18 +50,7 @@
     return (scriptTag && scriptTag.getAttribute('data-' + name)) || defaultVal;
   }
   
-  var origin = getAttr('origin', '');
-  if (!origin) {
-    try {
-      if (scriptTag && scriptTag.src && scriptTag.src.indexOf('http') === 0) {
-        origin = new URL(scriptTag.src).origin;
-      } else {
-        origin = window.location.origin;
-      }
-    } catch (e) {
-      origin = window.location.origin;
-    }
-  }
+  var origin = getAttr('origin', '') || window.location.origin;
   
   // Default config (will be overridden by server settings)
   var config = {

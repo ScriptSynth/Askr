@@ -3,11 +3,6 @@
 import { useState, use, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Star, Check, X, MessageSquare } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { cn } from "@/lib/utils"
 import { createClient } from "@/utils/supabase/client"
 
 interface WidgetSettings {
@@ -51,6 +46,45 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
 
   const { projectId } = use(params)
   const supabase = createClient()
+
+  // Apply styles to override parent layout
+  useEffect(() => {
+    // Hide everything from parent layout
+    document.documentElement.style.background = 'transparent'
+    document.body.style.background = 'transparent'
+    document.body.style.overflow = 'hidden'
+    document.body.style.margin = '0'
+    document.body.style.padding = '0'
+    
+    // Hide any headers, footers, or other elements from root layout
+    const style = document.createElement('style')
+    style.id = 'embed-override-styles'
+    style.textContent = `
+      html, body {
+        background: transparent !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        min-height: 100vh !important;
+      }
+      body > *:not(#widget-root) {
+        display: none !important;
+      }
+      #widget-root {
+        display: flex !important;
+        position: fixed !important;
+        inset: 0 !important;
+        z-index: 99999 !important;
+        background: transparent !important;
+      }
+    `
+    document.head.appendChild(style)
+    
+    return () => {
+      const existingStyle = document.getElementById('embed-override-styles')
+      if (existingStyle) existingStyle.remove()
+    }
+  }, [])
 
   // Fetch widget settings
   useEffect(() => {
@@ -145,8 +179,22 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
 
   if (!loaded) {
     return (
-      <div className="flex items-end justify-end h-full w-full p-0 bg-transparent">
-        <div className="w-full max-w-[380px] h-[280px] rounded-2xl bg-card/50 animate-pulse" />
+      <div id="widget-root" style={{ 
+        position: 'fixed', 
+        inset: 0, 
+        display: 'flex', 
+        alignItems: 'flex-end', 
+        justifyContent: 'flex-end',
+        background: 'transparent',
+        padding: 0
+      }}>
+        <div style={{ 
+          width: '380px', 
+          height: '280px', 
+          borderRadius: '16px', 
+          background: 'rgba(255,255,255,0.5)',
+          animation: 'pulse 2s infinite'
+        }} />
       </div>
     )
   }
@@ -156,29 +204,54 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
   const widgetHeight = Number(settings.widget_height) || defaultSettings.widget_height
 
   return (
-    <div className="flex items-end justify-end h-full w-full p-0 bg-transparent">
+    <div id="widget-root" style={{ 
+      position: 'fixed', 
+      inset: 0, 
+      display: 'flex', 
+      alignItems: 'flex-end', 
+      justifyContent: 'flex-end',
+      background: 'transparent',
+      padding: 0
+    }}>
       <motion.div
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="relative w-full overflow-hidden shadow-2xl border-2"
         style={{
+          position: 'relative',
+          overflow: 'hidden',
+          boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+          border: `2px solid ${settings.widget_text_color}15`,
           backgroundColor: settings.widget_bg_color,
           color: settings.widget_text_color,
           borderRadius: borderRadius,
-          borderColor: `${settings.widget_text_color}15`,
           width: `min(92vw, ${widgetWidth}px)`,
           height: `${widgetHeight}px`
         }}
       >
         <button
-            className="absolute right-3 top-3 h-8 w-8 rounded-full flex items-center justify-center hover:bg-black/5 z-10 transition-all hover:scale-110"
+            style={{
+              position: 'absolute',
+              right: '12px',
+              top: '12px',
+              height: '32px',
+              width: '32px',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              zIndex: 10,
+              transition: 'all 0.2s',
+              color: settings.widget_text_color
+            }}
             onClick={closeWidget}
-            style={{ color: settings.widget_text_color }}
         >
-            <X className="h-4 w-4" />
+            <X style={{ height: '16px', width: '16px' }} />
         </button>
 
-        <div className="p-6 pb-4">
+        <div style={{ padding: '24px', paddingBottom: '16px' }}>
           <AnimatePresence mode="wait">
             {step === "rating" && (
               <motion.div
@@ -186,42 +259,53 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                className="flex flex-col items-center space-y-4 text-center"
+                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', textAlign: 'center' }}
               >
                 <div 
-                  className="rounded-full p-4 shadow-lg"
-                  style={{ backgroundColor: `${settings.widget_primary_color}20` }}
+                  style={{ 
+                    borderRadius: '50%', 
+                    padding: '16px', 
+                    boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)',
+                    backgroundColor: `${settings.widget_primary_color}20` 
+                  }}
                 >
                   <MessageSquare 
-                    className="h-7 w-7" 
-                    style={{ color: settings.widget_primary_color }} 
+                    style={{ height: '28px', width: '28px', color: settings.widget_primary_color }} 
                   />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg" style={{ color: settings.widget_text_color }}>
+                  <h3 style={{ fontWeight: 600, fontSize: '18px', margin: 0, color: settings.widget_text_color }}>
                     {settings.widget_title}
                   </h3>
-                  <p className="text-sm mt-1 opacity-70">
+                  <p style={{ fontSize: '14px', marginTop: '4px', opacity: 0.7 }}>
                     {settings.widget_subtitle}
                   </p>
                 </div>
-                <div className="flex gap-2 py-2">
+                <div style={{ display: 'flex', gap: '8px', padding: '8px 0' }}>
                   {[1, 2, 3, 4, 5].map((star) => (
                     <button
                       key={star}
-                      className={cn(
-                        "transition-all hover:scale-125 focus:outline-none p-1 rounded-lg",
-                        rating >= star
-                          ? "text-yellow-500 drop-shadow-[0_0_4px_rgba(234,179,8,0.6)]"
-                          : "text-gray-300 hover:text-yellow-500/50"
-                      )}
+                      style={{
+                        transition: 'all 0.2s',
+                        padding: '4px',
+                        borderRadius: '8px',
+                        background: 'transparent',
+                        border: 'none',
+                        cursor: 'pointer',
+                        color: rating >= star ? '#eab308' : '#d1d5db',
+                        filter: rating >= star ? 'drop-shadow(0 0 4px rgba(234,179,8,0.6))' : 'none'
+                      }}
                       onClick={() => {
                         setRating(star)
                         setTimeout(() => setStep("details"), 300)
                       }}
                     >
                       <Star
-                        className={cn("h-9 w-9", rating >= star && "fill-current")}
+                        style={{ 
+                          height: '36px', 
+                          width: '36px',
+                          fill: rating >= star ? 'currentColor' : 'none'
+                        }}
                       />
                     </button>
                   ))}
@@ -235,45 +319,62 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                className="space-y-4"
+                style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
               >
-                <div className="space-y-2">
-                  <Label htmlFor="content" className="text-sm font-medium">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <label htmlFor="content" style={{ fontSize: '14px', fontWeight: 500 }}>
                     Care to share more? (Optional)
-                  </Label>
-                  <Textarea
+                  </label>
+                  <textarea
                     id="content"
                     placeholder="Your feedback helps us improve..."
-                    className="min-h-[100px] resize-none transition-colors border-2"
                     style={{
-                      borderColor: `${settings.widget_primary_color}30`,
-                      backgroundColor: `${settings.widget_text_color}05`
+                      minHeight: '100px',
+                      resize: 'none',
+                      padding: '12px',
+                      borderRadius: '8px',
+                      border: `2px solid ${settings.widget_primary_color}30`,
+                      backgroundColor: `${settings.widget_text_color}05`,
+                      fontSize: '14px',
+                      fontFamily: 'inherit',
+                      outline: 'none'
                     }}
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                   />
                 </div>
-                <div className="space-y-2">
-                    <Label htmlFor="name" className="text-sm font-medium">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <label htmlFor="name" style={{ fontSize: '14px', fontWeight: 500 }}>
                       Your Name (Optional)
-                    </Label>
-                    <Input 
+                    </label>
+                    <input 
                         id="name"
                         placeholder="Anonymous"
-                        className="transition-colors border-2"
                         style={{
-                          borderColor: `${settings.widget_primary_color}30`,
-                          backgroundColor: `${settings.widget_text_color}05`
+                          padding: '12px',
+                          borderRadius: '8px',
+                          border: `2px solid ${settings.widget_primary_color}30`,
+                          backgroundColor: `${settings.widget_text_color}05`,
+                          fontSize: '14px',
+                          fontFamily: 'inherit',
+                          outline: 'none'
                         }}
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                     />
                 </div>
                 <button 
-                    className="w-full py-3 font-medium text-white transition-all hover:opacity-90 shadow-lg hover:shadow-xl"
                     style={{ 
+                      width: '100%',
+                      padding: '12px',
+                      fontWeight: 500,
+                      color: 'white',
+                      border: 'none',
+                      cursor: 'pointer',
+                      boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)',
                       backgroundColor: settings.widget_primary_color,
-                      borderRadius: `${Math.min(Number(settings.widget_border_radius), 12)}px`
+                      borderRadius: `${Math.min(Number(settings.widget_border_radius), 12)}px`,
+                      opacity: isSubmitting ? 0.7 : 1
                     }}
                     onClick={handleSubmit} 
                     disabled={isSubmitting}
@@ -288,14 +389,14 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
                 key="success"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="flex flex-col items-center justify-center space-y-4 py-8 text-center"
+                style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px', padding: '32px 0', textAlign: 'center' }}
               >
-                <div className="rounded-full bg-green-500/20 p-5 text-green-500 shadow-lg">
-                  <Check className="h-10 w-10" />
+                <div style={{ borderRadius: '50%', backgroundColor: 'rgba(34,197,94,0.2)', padding: '20px', color: '#22c55e', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }}>
+                  <Check style={{ height: '40px', width: '40px' }} />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-lg">{settings.widget_success_title}</h3>
-                  <p className="text-sm mt-1 opacity-70">
+                  <h3 style={{ fontWeight: 600, fontSize: '18px', margin: 0 }}>{settings.widget_success_title}</h3>
+                  <p style={{ fontSize: '14px', marginTop: '4px', opacity: 0.7 }}>
                     {settings.widget_success_message}
                   </p>
                 </div>
@@ -306,16 +407,18 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
         
         {step !== 'success' && settings.widget_show_branding && (
               <div 
-                className="p-3 text-center text-[10px] border-t"
                 style={{ 
-                  borderColor: `${settings.widget_text_color}15`,
+                  padding: '12px',
+                  textAlign: 'center',
+                  fontSize: '10px',
+                  borderTop: `1px solid ${settings.widget_text_color}15`,
                   backgroundColor: `${settings.widget_text_color}05`
                 }}
               >
                 Powered by
-                <span className="ml-1 inline-flex items-center gap-1 font-semibold bg-gradient-to-r from-violet-600 via-fuchsia-500 to-blue-600 bg-clip-text text-transparent">
+                <span style={{ marginLeft: '4px', display: 'inline-flex', alignItems: 'center', gap: '4px', fontWeight: 600, background: 'linear-gradient(to right, #8b5cf6, #d946ef, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                   Askr
-                  <svg className="h-4 w-4" viewBox="0 0 32 32" fill="none">
+                  <svg style={{ height: '16px', width: '16px' }} viewBox="0 0 32 32" fill="none">
                     <defs>
                       <linearGradient id="bolt-grad" x1="0%" y1="0%" x2="100%" y2="100%">
                         <stop offset="0%" stopColor="#8b5cf6"/>

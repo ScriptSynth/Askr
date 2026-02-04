@@ -14,22 +14,5 @@ export default function EmbedLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return (
-    <html lang="en" style={{ background: "transparent" }}>
-      <head>
-        <style>{`
-          html, body {
-            background: transparent !important;
-            overflow: hidden !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            min-height: 100vh;
-          }
-        `}</style>
-      </head>
-      <body style={{ background: "transparent" }}>
-        {children}
-      </body>
-    </html>
-  );
+  return children;
 }

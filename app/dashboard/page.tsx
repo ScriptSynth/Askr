@@ -3,7 +3,8 @@ import { redirect } from "next/navigation"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Plus, LayoutGrid, Activity, LogOut, Settings, Zap, MessageSquare, Star, TrendingUp, Clock, ChevronRight, Sparkles } from "lucide-react"
+import { Plus, LayoutGrid, Activity, LogOut, Settings, MessageSquare, Star, TrendingUp, Clock, ChevronRight, Sparkles, Zap } from "lucide-react"
+import { Logo } from "@/components/logo"
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -38,11 +39,8 @@ export default async function DashboardPage() {
       {/* Sidebar */}
       <aside className="fixed left-0 top-0 z-40 hidden h-full w-64 border-r border-violet-100/70 bg-white/70 backdrop-blur-xl lg:block">
         <div className="flex h-16 items-center border-b border-violet-100/70 px-6">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 shadow-lg group-hover:shadow-xl transition-all group-hover:scale-105">
-              <Zap className="h-5 w-5 text-white fill-white" />
-            </div>
-            <span className="font-heading text-lg font-bold">Askr</span>
+          <Link href="/" className="flex items-center group hover:scale-105 transition-all">
+            <Logo size="md" />
           </Link>
         </div>
         
@@ -85,11 +83,8 @@ export default async function DashboardPage() {
 
       {/* Mobile Header */}
       <header className="sticky top-0 z-30 flex h-16 items-center border-b border-violet-100/70 bg-white/80 backdrop-blur-xl px-4 lg:hidden">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 shadow">
-            <Zap className="h-5 w-5 text-white fill-white" />
-          </div>
-          <span className="font-heading text-lg font-bold">Askr</span>
+        <Link href="/" className="flex items-center">
+          <Logo size="md" />
         </Link>
         <div className="ml-auto">
           <form action="/auth/signout" method="post">

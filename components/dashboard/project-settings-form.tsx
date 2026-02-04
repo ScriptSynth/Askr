@@ -20,6 +20,12 @@ interface Project {
   widget_bg_color?: string
   widget_text_color?: string
   widget_border_radius?: string
+  widget_width?: number
+  widget_height?: number
+  widget_open_animation?: string
+  widget_close_animation?: string
+  widget_show_once_session?: boolean
+  widget_device_target?: string
   widget_position?: string
   widget_theme?: string
   widget_title?: string
@@ -33,6 +39,29 @@ interface Project {
 }
 
 export function ProjectSettingsForm({ project }: { project: Project }) {
+  const defaultWidgetSettings = {
+    widget_primary_color: "#000000",
+    widget_bg_color: "#ffffff",
+    widget_text_color: "#000000",
+    widget_border_radius: "16",
+    widget_width: 380,
+    widget_height: 420,
+    widget_open_animation: "fade",
+    widget_close_animation: "fade",
+    widget_show_once_session: false,
+    widget_device_target: "all",
+    widget_position: "bottom-right",
+    widget_theme: "light",
+    widget_title: "How was your experience?",
+    widget_subtitle: "Help us improve this project.",
+    widget_button_text: "Submit Feedback",
+    widget_success_title: "Thank you!",
+    widget_success_message: "Your feedback helps us grow.",
+    widget_show_branding: true,
+    widget_trigger_delay: 5,
+    widget_trigger_scroll: 50,
+  }
+
   // General settings
   const [name, setName] = useState(project.name)
   const [slug, setSlug] = useState(project.slug)
@@ -42,6 +71,12 @@ export function ProjectSettingsForm({ project }: { project: Project }) {
   const [widgetBgColor, setWidgetBgColor] = useState(project.widget_bg_color || "#ffffff")
   const [widgetTextColor, setWidgetTextColor] = useState(project.widget_text_color || "#000000")
   const [widgetRadius, setWidgetRadius] = useState(project.widget_border_radius || "16")
+  const [widgetWidth, setWidgetWidth] = useState(project.widget_width || 380)
+  const [widgetHeight, setWidgetHeight] = useState(project.widget_height || 420)
+  const [widgetOpenAnimation, setWidgetOpenAnimation] = useState(project.widget_open_animation || "fade")
+  const [widgetCloseAnimation, setWidgetCloseAnimation] = useState(project.widget_close_animation || "fade")
+  const [showOnceSession, setShowOnceSession] = useState(project.widget_show_once_session === true)
+  const [deviceTarget, setDeviceTarget] = useState(project.widget_device_target || "all")
   const [widgetPosition, setWidgetPosition] = useState(project.widget_position || "bottom-right")
   const [widgetTheme, setWidgetTheme] = useState(project.widget_theme || "light")
   
@@ -63,6 +98,7 @@ export function ProjectSettingsForm({ project }: { project: Project }) {
   const [activeTab, setActiveTab] = useState<"general" | "appearance" | "content" | "behavior">("general")
   
   const [loading, setLoading] = useState(false)
+  const [resetting, setResetting] = useState(false)
   const supabase = createClient()
   const router = useRouter()
 
@@ -80,6 +116,12 @@ export function ProjectSettingsForm({ project }: { project: Project }) {
           widget_bg_color: widgetBgColor,
           widget_text_color: widgetTextColor,
           widget_border_radius: widgetRadius,
+          widget_width: widgetWidth,
+          widget_height: widgetHeight,
+          widget_open_animation: widgetOpenAnimation,
+          widget_close_animation: widgetCloseAnimation,
+          widget_show_once_session: showOnceSession,
+          widget_device_target: deviceTarget,
           widget_position: widgetPosition,
           widget_theme: widgetTheme,
           widget_title: widgetTitle,
@@ -107,6 +149,70 @@ export function ProjectSettingsForm({ project }: { project: Project }) {
   const resetPreview = () => {
     setPreviewStep("rating")
     setPreviewRating(0)
+  }
+
+  const applyDefaults = () => {
+    setWidgetColor(defaultWidgetSettings.widget_primary_color)
+    setWidgetBgColor(defaultWidgetSettings.widget_bg_color)
+    setWidgetTextColor(defaultWidgetSettings.widget_text_color)
+    setWidgetRadius(defaultWidgetSettings.widget_border_radius)
+    setWidgetWidth(defaultWidgetSettings.widget_width)
+    setWidgetHeight(defaultWidgetSettings.widget_height)
+    setWidgetOpenAnimation(defaultWidgetSettings.widget_open_animation)
+    setWidgetCloseAnimation(defaultWidgetSettings.widget_close_animation)
+    setShowOnceSession(defaultWidgetSettings.widget_show_once_session)
+    setDeviceTarget(defaultWidgetSettings.widget_device_target)
+    setWidgetPosition(defaultWidgetSettings.widget_position)
+    setWidgetTheme(defaultWidgetSettings.widget_theme)
+    setWidgetTitle(defaultWidgetSettings.widget_title)
+    setWidgetSubtitle(defaultWidgetSettings.widget_subtitle)
+    setWidgetButtonText(defaultWidgetSettings.widget_button_text)
+    setWidgetSuccessTitle(defaultWidgetSettings.widget_success_title)
+    setWidgetSuccessMessage(defaultWidgetSettings.widget_success_message)
+    setShowBranding(defaultWidgetSettings.widget_show_branding)
+    setTriggerDelay(defaultWidgetSettings.widget_trigger_delay)
+    setTriggerScroll(defaultWidgetSettings.widget_trigger_scroll)
+    resetPreview()
+  }
+
+  const handleReset = async () => {
+    setResetting(true)
+    try {
+      const { error } = await supabase
+        .from("projects")
+        .update({
+          widget_primary_color: defaultWidgetSettings.widget_primary_color,
+          widget_bg_color: defaultWidgetSettings.widget_bg_color,
+          widget_text_color: defaultWidgetSettings.widget_text_color,
+          widget_border_radius: defaultWidgetSettings.widget_border_radius,
+          widget_width: defaultWidgetSettings.widget_width,
+          widget_height: defaultWidgetSettings.widget_height,
+          widget_open_animation: defaultWidgetSettings.widget_open_animation,
+          widget_close_animation: defaultWidgetSettings.widget_close_animation,
+          widget_show_once_session: defaultWidgetSettings.widget_show_once_session,
+          widget_device_target: defaultWidgetSettings.widget_device_target,
+          widget_position: defaultWidgetSettings.widget_position,
+          widget_theme: defaultWidgetSettings.widget_theme,
+          widget_title: defaultWidgetSettings.widget_title,
+          widget_subtitle: defaultWidgetSettings.widget_subtitle,
+          widget_button_text: defaultWidgetSettings.widget_button_text,
+          widget_success_title: defaultWidgetSettings.widget_success_title,
+          widget_success_message: defaultWidgetSettings.widget_success_message,
+          widget_show_branding: defaultWidgetSettings.widget_show_branding,
+          widget_trigger_delay: defaultWidgetSettings.widget_trigger_delay,
+          widget_trigger_scroll: defaultWidgetSettings.widget_trigger_scroll,
+        })
+        .eq("id", project.id)
+
+      if (error) throw error
+      applyDefaults()
+      toast.success("Defaults restored")
+      router.refresh()
+    } catch (error: any) {
+      toast.error(error.message || "Failed to reset settings")
+    } finally {
+      setResetting(false)
+    }
   }
 
   const tabs = [
@@ -260,6 +366,33 @@ export function ProjectSettingsForm({ project }: { project: Project }) {
                   </div>
                 </div>
 
+                <Separator />
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label>Widget Width (px)</Label>
+                    <Input
+                      type="number"
+                      min={280}
+                      max={520}
+                      value={widgetWidth}
+                      onChange={(e) => setWidgetWidth(Number(e.target.value))}
+                      className="bg-white/70 border border-violet-100/70"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Widget Height (px)</Label>
+                    <Input
+                      type="number"
+                      min={280}
+                      max={640}
+                      value={widgetHeight}
+                      onChange={(e) => setWidgetHeight(Number(e.target.value))}
+                      className="bg-white/70 border border-violet-100/70"
+                    />
+                  </div>
+                </div>
+
                 <div className="space-y-2">
                   <Label>Position</Label>
                   <div className="grid grid-cols-2 gap-2">
@@ -377,6 +510,50 @@ export function ProjectSettingsForm({ project }: { project: Project }) {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
+                <div className="space-y-3">
+                  <Label>Open Animation</Label>
+                  <div className="grid grid-cols-4 gap-2">
+                    {["fade", "slide-up", "slide-left", "zoom"].map((animation) => (
+                      <button
+                        key={animation}
+                        type="button"
+                        onClick={() => setWidgetOpenAnimation(animation)}
+                        className={cn(
+                          "p-3 rounded-lg border border-violet-100/70 text-xs font-medium transition-all capitalize",
+                          widgetOpenAnimation === animation
+                            ? "border-violet-300/80 bg-violet-50 text-violet-700"
+                            : "border-violet-100/70 hover:border-violet-300/70"
+                        )}
+                      >
+                        {animation.replace("-", " ")}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <Label>Close Animation</Label>
+                  <div className="grid grid-cols-4 gap-2">
+                    {["fade", "slide-down", "slide-right", "zoom"].map((animation) => (
+                      <button
+                        key={animation}
+                        type="button"
+                        onClick={() => setWidgetCloseAnimation(animation)}
+                        className={cn(
+                          "p-3 rounded-lg border border-violet-100/70 text-xs font-medium transition-all capitalize",
+                          widgetCloseAnimation === animation
+                            ? "border-violet-300/80 bg-violet-50 text-violet-700"
+                            : "border-violet-100/70 hover:border-violet-300/70"
+                        )}
+                      >
+                        {animation.replace("-", " ")}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <Separator />
+
                 <div className="flex items-center justify-between p-4 rounded-lg border border-violet-100/70 bg-white/70">
                   <div className="space-y-0.5">
                     <Label>Show Askr Branding</Label>
@@ -399,6 +576,51 @@ export function ProjectSettingsForm({ project }: { project: Project }) {
                       )}
                     />
                   </button>
+                </div>
+
+                <div className="flex items-center justify-between p-4 rounded-lg border border-violet-100/70 bg-white/70">
+                  <div className="space-y-0.5">
+                    <Label>Show Once Per Session</Label>
+                    <p className="text-xs text-muted-foreground">
+                      Don’t show the widget again after it’s opened in this session
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowOnceSession(!showOnceSession)}
+                    className={cn(
+                      "relative inline-flex h-6 w-11 items-center rounded-full transition-colors",
+                      showOnceSession ? "bg-violet-600" : "bg-violet-200"
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-sm",
+                        showOnceSession ? "translate-x-6" : "translate-x-1"
+                      )}
+                    />
+                  </button>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Device Targeting</Label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {["all", "desktop", "mobile"].map((device) => (
+                      <button
+                        key={device}
+                        type="button"
+                        onClick={() => setDeviceTarget(device)}
+                        className={cn(
+                          "p-3 rounded-lg border border-violet-100/70 text-sm font-medium transition-all capitalize",
+                          deviceTarget === device
+                            ? "border-violet-300/80 bg-violet-50 text-violet-700"
+                            : "border-violet-100/70 hover:border-violet-300/70"
+                        )}
+                      >
+                        {device}
+                      </button>
+                    ))}
+                  </div>
                 </div>
 
                 <Separator />
@@ -470,13 +692,15 @@ export function ProjectSettingsForm({ project }: { project: Project }) {
               {/* Widget Preview */}
               <div 
                 className={cn(
-                  "absolute z-10 w-[300px] shadow-2xl overflow-hidden transition-all",
+                  "absolute z-10 shadow-2xl overflow-hidden transition-all",
                   widgetPosition === "bottom-right" && "bottom-4 right-4",
                   widgetPosition === "bottom-left" && "bottom-4 left-4",
                   widgetPosition === "top-right" && "top-4 right-4",
                   widgetPosition === "top-left" && "top-4 left-4"
                 )}
                 style={{
+                  width: `${widgetWidth}px`,
+                  height: `${widgetHeight}px`,
                   backgroundColor: widgetBgColor,
                   color: widgetTextColor,
                   borderRadius: `${widgetRadius}px`,
@@ -492,7 +716,7 @@ export function ProjectSettingsForm({ project }: { project: Project }) {
                   <X className="h-4 w-4" style={{ color: widgetTextColor }} />
                 </button>
 
-                <div className="p-5">
+                <div className="p-5 h-full overflow-auto">
                   {previewStep === "rating" && (
                     <div className="flex flex-col items-center space-y-4 text-center">
                       <div 
@@ -577,7 +801,7 @@ export function ProjectSettingsForm({ project }: { project: Project }) {
                   )}
                 </div>
                 
-                {showBranding && previewStep !== "success" && (
+                {showBranding && (
                   <div 
                     className="p-2.5 text-center text-[10px] border-t opacity-60"
                     style={{ borderColor: `${widgetTextColor}20` }}
@@ -601,6 +825,16 @@ export function ProjectSettingsForm({ project }: { project: Project }) {
 
       {/* Save Button */}
       <div className="flex justify-end pt-4 border-t border-violet-100/70">
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleReset}
+          disabled={resetting || loading}
+          className="mr-3 border-violet-200/70 hover:bg-violet-50"
+        >
+          {resetting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          Reset to Defaults
+        </Button>
         <Button 
           type="submit" 
           disabled={loading} 

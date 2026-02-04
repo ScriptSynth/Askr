@@ -22,7 +22,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
-import { Trash2, Star } from "lucide-react"
+import { Trash2, Star, Code2, Copy } from "lucide-react"
 import { toast } from "sonner"
 import { formatDistanceToNow } from "date-fns"
 
@@ -42,6 +42,20 @@ interface ReviewFeedProps {
 export function ReviewFeed({ initialReviews, projectId }: ReviewFeedProps) {
   const [reviews, setReviews] = useState<Review[]>(initialReviews)
   const supabase = createClient()
+
+  const getEmbedSnippet = (reviewId: string) => {
+    const origin = typeof window !== "undefined" ? window.location.origin : ""
+    return `<div data-askr-review-id="${reviewId}"></div>\n<script src="${origin}/review-card.js" async></script>`
+  }
+
+  const handleCopy = async (reviewId: string) => {
+    try {
+      await navigator.clipboard.writeText(getEmbedSnippet(reviewId))
+      toast.success("Embed code copied")
+    } catch (error) {
+      toast.error("Failed to copy")
+    }
+  }
 
   useEffect(() => {
     const channel = supabase
@@ -130,6 +144,34 @@ export function ReviewFeed({ initialReviews, projectId }: ReviewFeedProps) {
                 {formatDistanceToNow(new Date(review.created_at), { addSuffix: true })}
               </TableCell>
               <TableCell className="text-right">
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant="ghost" size="icon" className="mr-1 hover:text-violet-600 hover:bg-violet-50 transition-all hover:scale-110">
+                      <Code2 className="h-4 w-4" />
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent className="bg-white/95 backdrop-blur-xl border border-violet-100/70 max-w-2xl">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Embed verified review card</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Paste this snippet on your website. It renders a branded Askr card with a verified badge.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <div className="mt-3 rounded-xl border border-violet-100/70 bg-slate-50 p-4 text-sm font-mono whitespace-pre-wrap">
+                      {getEmbedSnippet(review.id)}
+                    </div>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel className="hover:bg-muted/50">Close</AlertDialogCancel>
+                      <AlertDialogAction
+                        className="bg-violet-600 text-white hover:bg-violet-700 shadow-lg hover:shadow-xl transition-all"
+                        onClick={() => handleCopy(review.id)}
+                      >
+                        <Copy className="h-4 w-4 mr-2" />
+                        Copy code
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button variant="ghost" size="icon" className="hover:text-destructive hover:bg-destructive/10 transition-all hover:scale-110">

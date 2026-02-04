@@ -1,8 +1,22 @@
-import { createClient } from "@/utils/supabase/server";
+import { createAdminClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
 
+export const runtime = "nodejs";
+
 export async function POST(request: Request) {
-  const supabase = await createClient();
+  let supabase;
+  try {
+    supabase = createAdminClient();
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Server configuration error" },
+      { status: 500, headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization",
+      } }
+    );
+  }
 
   // Basic CORS headers
   const headers = {
@@ -19,9 +33,18 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { project_id, rating, content, customer_name } = body;
 
-    if (!project_id || !rating) {
+    const normalizedRating = Number(rating);
+
+    if (!project_id || !Number.isFinite(normalizedRating)) {
       return NextResponse.json(
         { error: "Missing required fields" },
+        { status: 400, headers }
+      );
+    }
+
+    if (normalizedRating < 1 || normalizedRating > 5) {
+      return NextResponse.json(
+        { error: "Rating must be between 1 and 5" },
         { status: 400, headers }
       );
     }
@@ -43,9 +66,9 @@ export async function POST(request: Request) {
     // Insert review
     const { error: insertError } = await supabase.from("reviews").insert({
       project_id: project.id,
-      rating,
-      content,
-      customer_name,
+      rating: normalizedRating,
+      content: typeof content === "string" ? content.trim() : null,
+      customer_name: typeof customer_name === "string" ? customer_name.trim() : null,
       status: "approved",
     });
 

@@ -2,7 +2,7 @@
 
 import { useState, use, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Star, Check, X, MessageSquare, Zap } from "lucide-react"
+import { Star, Check, X, MessageSquare } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
@@ -15,6 +15,8 @@ interface WidgetSettings {
   widget_bg_color: string
   widget_text_color: string
   widget_border_radius: string
+  widget_width: number
+  widget_height: number
   widget_title: string
   widget_subtitle: string
   widget_button_text: string
@@ -28,6 +30,8 @@ const defaultSettings: WidgetSettings = {
   widget_bg_color: "#ffffff",
   widget_text_color: "#000000",
   widget_border_radius: "16",
+  widget_width: 380,
+  widget_height: 420,
   widget_title: "How was your experience?",
   widget_subtitle: "Help us improve this project.",
   widget_button_text: "Submit Feedback",
@@ -59,6 +63,8 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
           widget_bg_color,
           widget_text_color,
           widget_border_radius,
+          widget_width,
+          widget_height,
           widget_title,
           widget_subtitle,
           widget_button_text,
@@ -75,6 +81,8 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
           widget_bg_color: data.widget_bg_color || defaultSettings.widget_bg_color,
           widget_text_color: data.widget_text_color || defaultSettings.widget_text_color,
           widget_border_radius: data.widget_border_radius || defaultSettings.widget_border_radius,
+          widget_width: data.widget_width || defaultSettings.widget_width,
+          widget_height: data.widget_height || defaultSettings.widget_height,
           widget_title: data.widget_title || defaultSettings.widget_title,
           widget_subtitle: data.widget_subtitle || defaultSettings.widget_subtitle,
           widget_button_text: data.widget_button_text || defaultSettings.widget_button_text,
@@ -118,10 +126,11 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
       if (res.ok) {
         setStep("success")
         setTimeout(() => {
-             window.parent.postMessage({ type: 'askr-widget-close' }, '*');
+             window.parent.postMessage({ type: 'facto-widget-close' }, '*');
         }, 3000);
       } else {
-          console.error("Failed to submit")
+          const errorText = await res.text().catch(() => "")
+          console.error("Failed to submit", errorText)
       }
     } catch (e) {
       console.error(e)
@@ -131,7 +140,7 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
   }
 
   const closeWidget = () => {
-    window.parent.postMessage({ type: 'askr-widget-close' }, '*');
+    window.parent.postMessage({ type: 'facto-widget-close' }, '*');
   }
 
   if (!loaded) {
@@ -143,23 +152,28 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
   }
 
   const borderRadius = `${settings.widget_border_radius}px`
+  const widgetWidth = Number(settings.widget_width) || defaultSettings.widget_width
+  const widgetHeight = Number(settings.widget_height) || defaultSettings.widget_height
 
   return (
     <div className="flex items-end justify-end min-h-screen p-4 bg-transparent">
       <style>{`
         html, body {
-            background: transparent !important;
+          background: transparent !important;
+          overflow: hidden;
         }
       `}</style>
       <motion.div
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        className="relative w-full max-w-[92vw] sm:max-w-[420px] overflow-hidden shadow-2xl border-2"
+        className="relative w-full overflow-hidden shadow-2xl border-2"
         style={{
           backgroundColor: settings.widget_bg_color,
           color: settings.widget_text_color,
           borderRadius: borderRadius,
-          borderColor: `${settings.widget_text_color}15`
+          borderColor: `${settings.widget_text_color}15`,
+          width: `min(92vw, ${widgetWidth}px)`,
+          height: `${widgetHeight}px`
         }}
       >
         <button
@@ -305,9 +319,18 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
                 }}
               >
                 Powered by
-                <span className="ml-1 inline-flex items-center gap-1 font-semibold">
+                <span className="ml-1 inline-flex items-center gap-1 font-semibold bg-gradient-to-r from-violet-600 via-fuchsia-500 to-blue-600 bg-clip-text text-transparent">
                   Askr
-                  <Zap className="h-4 w-4 text-violet-600 fill-violet-600" />
+                  <svg className="h-4 w-4" viewBox="0 0 32 32" fill="none">
+                    <defs>
+                      <linearGradient id="bolt-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#8b5cf6"/>
+                        <stop offset="50%" stopColor="#d946ef"/>
+                        <stop offset="100%" stopColor="#3b82f6"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M18 2L6 18h8l-2 12 12-16h-8l2-12z" fill="url(#bolt-grad)"/>
+                  </svg>
                 </span>
               </div>
         )}

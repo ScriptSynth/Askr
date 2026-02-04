@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Zap } from "lucide-react"
+import { Logo } from "@/components/logo"
 
 export function SiteFooter() {
   return (
@@ -8,11 +8,8 @@ export function SiteFooter() {
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-6">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center space-x-2 mb-4">
-              <div className="h-9 w-9 rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 shadow-md flex items-center justify-center">
-                <Zap className="h-4 w-4 text-white fill-white" />
-              </div>
-              <span className="font-heading font-bold text-lg">Askr</span>
+            <Link href="/" className="flex items-center mb-4">
+              <Logo size="sm" />
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
               The #1 testimonial widget for SaaS. Collect and display customer reviews in 60 seconds.

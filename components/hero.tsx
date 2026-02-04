@@ -40,7 +40,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="font-heading text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl max-w-5xl leading-[1.05]"
+          className="font-[family-name:var(--font-space-grotesk)] text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl max-w-5xl leading-[1.05]"
         >
           <span className="block text-foreground/90">The</span>
           <span className="relative inline-block">
@@ -73,7 +73,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="max-w-[750px] mt-8 text-lg text-muted-foreground sm:text-xl md:text-2xl leading-relaxed font-medium"
+          className="font-[family-name:var(--font-inter)] max-w-[750px] mt-8 text-lg text-muted-foreground sm:text-xl md:text-2xl leading-relaxed font-medium"
         >
           Collect and display <strong className="text-foreground font-semibold bg-gradient-to-r from-violet-600/10 to-blue-600/10 px-1 rounded">customer testimonials</strong> in 60 seconds. 
           One script tag, beautiful social proof widget, 

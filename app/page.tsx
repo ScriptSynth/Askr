@@ -3,6 +3,8 @@ import { Hero } from "@/components/hero"
 import { Features } from "@/components/features"
 import { Testimonials } from "@/components/testimonials"
 import { SiteFooter } from "@/components/site-footer"
+import { AnimatedSection } from "@/components/animated-section"
+import Script from "next/script"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -29,14 +31,103 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="relative min-h-screen flex flex-col bg-white">
+    <div className="relative min-h-screen flex flex-col bg-white overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <div className="bg-orb bg-orb-1" />
+        <div className="bg-orb bg-orb-2" />
+        <div
+          className="absolute inset-0 opacity-30"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 20% 20%, rgba(139,92,246,0.18), transparent 45%), radial-gradient(circle at 80% 60%, rgba(59,130,246,0.18), transparent 45%)",
+          }}
+        />
+      </div>
       <SiteHeader />
       <main className="flex-1">
-        <Hero />
-        <Features />
-        <Testimonials />
+        <AnimatedSection>
+          <Hero />
+        </AnimatedSection>
+        <AnimatedSection delay={0.1}>
+          <Features />
+        </AnimatedSection>
+        <AnimatedSection delay={0.15}>
+          <Testimonials />
+        </AnimatedSection>
+
+        {/* Pricing Section */}
+        <AnimatedSection delay={0.2}>
+        <section className="py-24 bg-white" id="pricing">
+          <div className="container mx-auto px-4 md:px-6 max-w-5xl">
+            <div className="text-center mb-12">
+              <span className="inline-block px-4 py-1.5 rounded-full bg-violet-100 text-violet-700 text-sm font-semibold mb-4">
+                Pricing
+              </span>
+              <h2 className="font-heading text-3xl md:text-4xl font-bold tracking-tight mb-4">
+                Simple, transparent pricing
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                Start free and upgrade when you’re ready.
+              </p>
+            </div>
+
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="rounded-2xl border p-8 shadow-sm transition-all hover:-translate-y-2 hover:shadow-xl">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-heading text-xl font-semibold">Free</h3>
+                  <span className="text-sm font-medium text-violet-700 bg-violet-100 px-3 py-1 rounded-full">
+                    Great to start
+                  </span>
+                </div>
+                <div className="mb-6">
+                  <span className="text-4xl font-bold">$0</span>
+                  <span className="text-muted-foreground">/month</span>
+                </div>
+                <ul className="space-y-3 text-sm text-muted-foreground">
+                  <li>Unlimited testimonial collection</li>
+                  <li>Customizable widget styling</li>
+                  <li>Basic analytics</li>
+                  <li>Community support</li>
+                </ul>
+                <a
+                  href="/auth"
+                  className="mt-8 inline-flex w-full items-center justify-center rounded-xl border px-6 py-3 font-semibold hover:bg-slate-50 transition-colors"
+                >
+                  Get Started Free
+                </a>
+              </div>
+
+              <div className="rounded-2xl border p-8 shadow-md bg-gradient-to-b from-violet-50 to-white transition-all hover:-translate-y-2 hover:shadow-2xl">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="font-heading text-xl font-semibold">Premium</h3>
+                  <span className="text-sm font-medium text-white bg-violet-600 px-3 py-1 rounded-full">
+                    Most popular
+                  </span>
+                </div>
+                <div className="mb-6">
+                  <span className="text-4xl font-bold">$5.99</span>
+                  <span className="text-muted-foreground">/month</span>
+                </div>
+                <ul className="space-y-3 text-sm text-muted-foreground">
+                  <li>Everything in Free</li>
+                  <li>Remove branding</li>
+                  <li>Advanced analytics</li>
+                  <li>Priority support</li>
+                </ul>
+                <a
+                  href="/auth"
+                  className="mt-8 inline-flex w-full items-center justify-center rounded-xl bg-violet-600 text-white px-6 py-3 font-semibold hover:bg-violet-700 transition-colors shadow"
+                >
+                  Start Premium
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+        </AnimatedSection>
         
         {/* FAQ Section for SEO */}
+        <AnimatedSection delay={0.25}>
         <section className="py-24 bg-slate-50" id="faq">
           <div className="container mx-auto px-4 md:px-6 max-w-4xl">
             <div className="text-center mb-12">
@@ -95,8 +186,10 @@ export default function Home() {
             </div>
           </div>
         </section>
+        </AnimatedSection>
 
         {/* Final CTA */}
+        <AnimatedSection delay={0.3}>
         <section className="py-24 bg-gradient-to-r from-violet-600 to-blue-600">
           <div className="container mx-auto px-4 md:px-6 text-center">
             <h2 className="font-heading text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
@@ -119,8 +212,14 @@ export default function Home() {
             </p>
           </div>
         </section>
+        </AnimatedSection>
       </main>
       <SiteFooter />
+      <Script
+        src="http://localhost:3000/widget.js"
+        data-project-id="d28ce8a9-d379-42e3-b8ce-5e2c0dac5844"
+        strategy="afterInteractive"
+      />
     </div>
   )
 }

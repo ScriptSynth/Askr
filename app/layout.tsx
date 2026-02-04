@@ -3,7 +3,6 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner"
 import { Analytics } from "@vercel/analytics/next"
-import Script from "next/script"
 
 const inter = Inter({
   variable: "--font-inter",
@@ -89,16 +88,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const widgetProject =
-    process.env.NEXT_PUBLIC_DEMO_PROJECT_ID ||
-    process.env.NEXT_PUBLIC_DEMO_PROJECT_SLUG ||
-    "demo";
-
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/logo.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/logo.png" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/favicon.svg" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -127,11 +121,6 @@ export default function RootLayout({
         className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}
       >
         {children}
-        <Script
-          src="/widget.js"
-          data-project-id={widgetProject}
-          strategy="afterInteractive"
-        />
         <Toaster position="top-center" richColors expand />
         <Analytics />
       </body>

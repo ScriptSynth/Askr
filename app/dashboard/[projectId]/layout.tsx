@@ -2,8 +2,9 @@ import { createClient } from "@/utils/supabase/server"
 import { notFound, redirect } from "next/navigation"
 import { ProjectNav } from "@/components/dashboard/project-nav"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, LogOut, Zap } from "lucide-react"
+import { ArrowLeft, LogOut } from "lucide-react"
 import Link from "next/link"
+import { Logo } from "@/components/logo"
 
 export default async function ProjectLayout({
   children,
@@ -50,9 +51,7 @@ export default async function ProjectLayout({
           </Button>
           <div className="h-6 w-px bg-violet-200/70" />
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-violet-600 to-blue-600 shadow">
-              <Zap className="h-5 w-5 text-white fill-white" />
-            </div>
+            <Logo size="md" showText={false} />
             <div className="flex flex-col">
               <span className="text-sm font-semibold leading-none">{project.name}</span>
               <span className="text-xs text-muted-foreground font-mono bg-violet-50/80 px-2 py-0.5 rounded mt-1">{project.slug}</span>

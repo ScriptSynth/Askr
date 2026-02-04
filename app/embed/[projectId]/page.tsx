@@ -145,7 +145,7 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
 
   if (!loaded) {
     return (
-      <div className="flex items-end justify-end min-h-screen p-4 bg-transparent">
+      <div className="flex items-end justify-end h-full w-full p-0 bg-transparent">
         <div className="w-full max-w-[380px] h-[280px] rounded-2xl bg-card/50 animate-pulse" />
       </div>
     )
@@ -156,13 +156,7 @@ export default function WidgetPage({ params }: { params: Promise<{ projectId: st
   const widgetHeight = Number(settings.widget_height) || defaultSettings.widget_height
 
   return (
-    <div className="flex items-end justify-end min-h-screen p-4 bg-transparent">
-      <style>{`
-        html, body {
-          background: transparent !important;
-          overflow: hidden;
-        }
-      `}</style>
+    <div className="flex items-end justify-end h-full w-full p-0 bg-transparent">
       <motion.div
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}

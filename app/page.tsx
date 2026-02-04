@@ -216,8 +216,9 @@ export default function Home() {
       </main>
       <SiteFooter />
       <Script
-        src="http://localhost:3000/widget.js"
+        src="/widget.js"
         data-project-id="d28ce8a9-d379-42e3-b8ce-5e2c0dac5844"
+        data-origin="https://askr.vercel.app"
         strategy="afterInteractive"
       />
     </div>
